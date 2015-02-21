@@ -55,8 +55,8 @@
     </Compile>
     <Compile Include="Form\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quantum\Controllers\DroneController.cs" />
     <Compile Include="Quantum\Controllers\GeneralController.cs" />
-    <Compile Include="Quantum\Controllers\SampleController.cs" />
     <Compile Include="Quantum\QuantumGame.cs" />
     <Compile Include="Quantum\QuantumModel.cs" />
     <Compile Include="Quantum\Renders\GlobalRender.cs" />

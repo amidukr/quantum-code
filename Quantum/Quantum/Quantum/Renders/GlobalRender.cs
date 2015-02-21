@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Quantum.Quantum
 {
@@ -16,6 +17,7 @@ namespace Quantum.Quantum
         private Image greenOutpostImage = Image.FromFile(@"Resources\green-outpost.png");
         private Image greyOutpostImage = Image.FromFile(@"Resources\grey-outpost.png");
 
+        private Pen grayPen = new Pen(Color.Gray, 3);
         public void execute(GameEvent gameEvent)
         {
             var general = gameEvent.model.currentGeneral;
@@ -26,9 +28,21 @@ namespace Quantum.Quantum
             else
                 generalImage = blueGeneralImage;
 
+            Matrix mat = new Matrix();
+            //Matrix mat = new Matrix(1, -1, 1, -1, 0, 0);
 
-            string pathToImage = string.Empty;
+            double angle = Math.Atan2(general.Velocity.Y, general.Velocity.X);
+
+            mat.RotateAt(90 + (float)(180*angle/Math.PI), general.Position);
+            mat.Translate(-30, -55);
+           // mat.Translate(10f, 10f);
+
+            gameEvent.graphics.Transform = mat;
+
             gameEvent.graphics.DrawImage(generalImage, general.Position);
+
+            gameEvent.graphics.Transform = new Matrix();
+            //gameEvent.graphics.DrawEllipse(grayPen, general.Position.X - 10, general.Position.Y - 10, 20, 20);
 
         }
     }
