@@ -25,10 +25,10 @@ namespace Quantum.Quantum
             Health = 3; //default value            
         }
 
-        public Team CurrentTeam { get {return team;} }
+        public Team CurrentTeam { get;  }
         
-        public Point CurrentPosition {get; set;}
-        public Vector movingVector;
+        public Point  CurrentPosition {get; set;}
+        public Vector Velocity {get; set;}
 
         public int Health { get; set; }
         public List<string> Drones { get; set; }
