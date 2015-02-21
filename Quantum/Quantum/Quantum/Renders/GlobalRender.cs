@@ -42,21 +42,14 @@ namespace Quantum.Quantum
             List<Outpost> Outposts = gameEvent.model.Outposts;
             foreach (Outpost outpost in Outposts)
             {
-                Point centerOfOutpost = CenterOfObject(new Point((int)outpost.Position.X, (int)outpost.Position.Y));
                 if (outpost.id == 1)
-                    gameEvent.graphics.DrawImage(greyOutpostImage, centerOfOutpost);
+                    gameEvent.graphics.DrawImage(greyOutpostImage, (int)outpost.Position.X - 40, (int)outpost.Position.Y - 40, 80, 80);
                 if (outpost.id == 2)
-                    gameEvent.graphics.DrawImage(blueOutpostImage, centerOfOutpost);
+                    gameEvent.graphics.DrawImage(blueOutpostImage, (int)outpost.Position.X - 40, (int)outpost.Position.Y - 40, 80, 80);
                 if (outpost.id == 3)
-                    gameEvent.graphics.DrawImage(greenOutpostImage, centerOfOutpost);
+                    gameEvent.graphics.DrawImage(greenOutpostImage, (int)outpost.Position.X - 40, (int)outpost.Position.Y - 40, 80, 80);
             }
         }
-
-        private Point CenterOfObject(System.Windows.Vector vector)
-        {
-            throw new NotImplementedException();
-        }
-
         public void drawDrone(GameEvent gameEvent)
         {
             List<Drone> drones = gameEvent.model.currentGeneral.Drones;
@@ -69,28 +62,20 @@ namespace Quantum.Quantum
                     droneImage = blueDroneImage;
                 foreach (Drone drone in drones)
                 {
-                    gameEvent.graphics.DrawImage(greenDroneImage, CenterOfObject(drone.Position));
+                    gameEvent.graphics.DrawImage(droneImage, (int)drone.Position.X - 5, (int)drone.Position.Y - 5, 10, 10);
                 }
             }
-        }
-        private void SimpleRotation(Image image, General general)
-        {
-
         }
         private void RotateImage(Image image, General general, GameEvent gameEvent)
         {
             Matrix mat = new Matrix();
             double angle = Math.Atan2(general.Velocity.Y, general.Velocity.X);
             mat.RotateAt(90 + (float)(180 * angle / Math.PI), new PointF((float)general.Position.X, (float)general.Position.Y));
-            mat.Translate(-30, -55);
+            mat.Translate(-16, -28);
             gameEvent.graphics.Transform = mat;
-            gameEvent.graphics.DrawImage(image, new Point((int)general.Position.X, (int)general.Position.Y));
+            gameEvent.graphics.DrawImage(image, (int)general.Position.X, (int)general.Position.Y, 32, 55);
             gameEvent.graphics.Transform = new Matrix();
         }
 
-        private Point CenterOfObject(Point objCordinates)
-        {
-            return new Point((int)(-objCordinates.X / 2), (int)(-objCordinates.Y / 2));
-        }
     }
 }

@@ -113,12 +113,11 @@ namespace Quantum.Quantum
 
             GameEvent gameEvent = new GameEvent(this, deltaTime/100000.0, g);
 
-            g.FillRectangle(backgroundBrush, g.ClipBounds);
-
             foreach (GameController controller in controllers)
             {
                 controller.execute(gameEvent);
             }
+            globalRender.drawDrone(gameEvent);
         }
 
 
