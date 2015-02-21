@@ -16,10 +16,12 @@ namespace Quantum.Quantum
 
     class QuantumModel
     {
-        public const int radiusMin = 10;
-        public const int radiusMax = 13;
         private int nextUniqueId = 1;
+
+        public readonly int cloudRadius = 90;
+
         public readonly double speedConstant = 1.0;
+        public readonly double dronSpeedConstant = 1.8;
 
         public General currentGeneral          = new General(Team.green);
         public readonly List<Outpost> Outposts = new List<Outpost>();
@@ -54,9 +56,9 @@ namespace Quantum.Quantum
         }
 
         public int   Health   { get; set; }
-        public Point Position { get; set; }
+        public Vector Position { get; set; }
 
-        public Point      TargetPosition{get; set;}
+        public Vector TargetPosition { get; set; }
         public int        TargetOutpost {get; set;}
         public DroneOrder Order{ get; set; }
 
