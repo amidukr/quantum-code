@@ -14,16 +14,24 @@ namespace Quantum
     public partial class QuantumForm : Form
     {
         private QuantumGame game = new QuantumGame();
+        private BufferedGraphicsContext context;
+        private BufferedGraphics grafx;
+
 
         public QuantumForm()
         {
             InitializeComponent();
+
+            context = BufferedGraphicsManager.Current;
+            grafx = context.Allocate(this.CreateGraphics(),
+                new Rectangle(0, 0, this.Width, this.Height));
         }
 
         private void onTimer(object sender, EventArgs e)
         {
             using(Graphics graphics = this.CreateGraphics()) {
-                game.playNext(graphics);
+                game.playNext(grafx.Graphics);
+                this.Refresh();
             }
         }
 
