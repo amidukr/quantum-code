@@ -99,8 +99,9 @@ namespace Quantum.Quantum
 
             droneControler.execute(gameEvent);
             globalRender.execute(gameEvent);
+            globalRender.drawOutposts(gameEvent);
             generalController.execute(gameEvent);
-
+            
         }
 
 
