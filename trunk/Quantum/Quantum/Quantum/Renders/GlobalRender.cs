@@ -18,7 +18,14 @@ namespace Quantum.Quantum
         private Image greyOutpostImage = Image.FromFile(@"Resources\grey-outpost.png");
 
         private Pen grayPen = new Pen(Color.Gray, 3);
+
         public void execute(GameEvent gameEvent)
+        {
+            drawOutposts(gameEvent);
+            drawGeneral(gameEvent);
+        }
+
+        private void drawGeneral(GameEvent gameEvent)
         {
             General general = gameEvent.model.currentGeneral;
             Image generalImage;
@@ -29,7 +36,8 @@ namespace Quantum.Quantum
                 generalImage = blueGeneralImage;
             RotateImage(generalImage, general, gameEvent);
         }
-        public void drawOutposts(GameEvent gameEvent)
+
+        private void drawOutposts(GameEvent gameEvent)
         {
             List<Outpost> Outposts = gameEvent.model.Outposts;
             foreach (Outpost outpost in Outposts)

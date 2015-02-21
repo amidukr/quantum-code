@@ -60,11 +60,20 @@ namespace Quantum.Quantum
 
         private Brush backgroundBrush = new SolidBrush(Color.FromArgb(unchecked((int)0xff444465)));
 
+
+        private List<GameController> controllers = new List<GameController>();
+
         private DroneController droneControler = new DroneController();
         private GlobalRender globalRender = new GlobalRender();
         private GeneralController generalController = new GeneralController();
         
         private void initialize() {
+
+            controllers.Add(new DroneController());
+            controllers.Add(new GeneralController());
+            controllers.Add(new GlobalRender());
+
+
             Outpost outpost = new Outpost();
             
             outpost.Position = new Vector(200, 200);
@@ -80,7 +89,7 @@ namespace Quantum.Quantum
             model.currentGeneral.Drones.Add(drone);
 
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 drone = new Drone();
                 drone.Order = DroneOrder.MoveToGeneral;
@@ -106,10 +115,10 @@ namespace Quantum.Quantum
 
             g.FillRectangle(backgroundBrush, g.ClipBounds);
 
-            droneControler.execute(gameEvent);
-            generalController.execute(gameEvent);
-            globalRender.execute(gameEvent);
-            globalRender.drawOutposts(gameEvent);
+            foreach (GameController controller in controllers)
+            {
+                controller.execute(gameEvent);
+            }
         }
 
 
