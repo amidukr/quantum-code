@@ -57,14 +57,12 @@ namespace Quantum.Quantum.Controllers
                 angle = -Math.PI;
                 direction = Direction.left;
             }
-            Console.WriteLine(string.Format("New direction: {0}.", direction.ToString()));
-
+            
             if (angle != -10)
                 gameEvent.model.currentGeneral.Velocity = new Vector(Math.Cos(angle) * gameEvent.model.speedConstant, Math.Sin(angle) * gameEvent.model.speedConstant);
             else
                 gameEvent.model.currentGeneral.Velocity = new Vector(0, 0);
 
-            Console.WriteLine(gameEvent.model.currentGeneral.Velocity);
 
             gameEvent.model.currentGeneral.Position = new Vector(gameEvent.model.currentGeneral.Position.X + (gameEvent.model.currentGeneral.Velocity.X * gameEvent.deltaTime), 
                                                                                gameEvent.model.currentGeneral.Position.Y + (gameEvent.model.currentGeneral.Velocity.Y * gameEvent.deltaTime));
