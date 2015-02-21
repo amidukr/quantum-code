@@ -40,10 +40,13 @@
             // 
             // QuantumForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(282, 253);
+            this.BackgroundImage = global::Quantum.Properties.Resources.Background;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(212, 206);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "QuantumForm";
             this.ShowIcon = false;
             this.Text = "Quantum";
