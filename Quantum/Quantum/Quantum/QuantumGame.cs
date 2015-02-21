@@ -61,6 +61,7 @@ namespace Quantum.Quantum
 
         private SampleController sampleController = new SampleController();
         private GlobalRender globalRender = new GlobalRender();
+        private GeneralController generalController = new GeneralController();
         
         private void initialize() {
             
@@ -68,8 +69,8 @@ namespace Quantum.Quantum
 
         public void playNext(Graphics g)
         {
-            long currentTime = System.DateTime.Today.Ticks;
-            long deltaTime   = lastExecution - currentTime;
+            long currentTime = System.DateTime.Now.Ticks;
+            long deltaTime   = currentTime - lastExecution;
             lastExecution = currentTime;
 
             if (firstExecution)
@@ -79,12 +80,13 @@ namespace Quantum.Quantum
                 return;
             }
 
-            GameEvent gameEvent = new GameEvent(this, deltaTime, g);
+            GameEvent gameEvent = new GameEvent(this, deltaTime/100000, g);
 
             g.FillRectangle(backgroundBrush, g.ClipBounds);
 
             sampleController.execute(gameEvent);
             globalRender.execute(gameEvent);
+            generalController.execute(gameEvent);
 
         }
 
