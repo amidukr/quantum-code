@@ -58,6 +58,7 @@
     <Compile Include="Quantum\Controllers\SampleController.cs" />
     <Compile Include="Quantum\QuantumGame.cs" />
     <Compile Include="Quantum\QuantumModel.cs" />
+    <Compile Include="Quantum\Renders\GlobalRender.cs" />
     <EmbeddedResource Include="Form\QuantumForm.resx">
       <DependentUpon>QuantumForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -84,8 +85,29 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Content Include="Resources\blue-drone.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\blue-general.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\blue-outpost.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\green-drone.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\green-general.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\green-outpost.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\grey-outpost.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
