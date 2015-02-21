@@ -11,7 +11,7 @@ namespace Quantum.Quantum
 
     
 
-    public enum Team { green, blue }
+    public enum Team { green, blue, neutral }
     public enum DroneOrder { MoveToGeneral, MoveToPosition, MoveToOutpost}
 
     class QuantumModel
@@ -25,8 +25,11 @@ namespace Quantum.Quantum
 
         public readonly double speedConstant = 1.0;
         public readonly double dronSpeedConstant = 1.8;
+        public readonly double outpostConquestTime = 1000;
 
         public General currentGeneral          = new General(Team.green);
+
+        public readonly List<General> Generals = new List<General>();
         public readonly List<Outpost> Outposts = new List<Outpost>();
 
         public Outpost findOutpostById(int id)
@@ -38,6 +41,19 @@ namespace Quantum.Quantum
             return null;
         }
 
+        public Outpost findOutpostByPosition(Vector position)
+        {
+            foreach (Outpost outpost in this.Outposts)
+            {
+                if (Vector.Subtract(position, outpost.Position).Length < cloudRadius)
+                {
+                    return outpost;
+                }
+            }
+
+            return null;
+        }
+
         public int generateID()
         {
             return nextUniqueId++;
@@ -46,8 +62,14 @@ namespace Quantum.Quantum
 
     class Outpost
     {   
+        public Outpost  ()
+        {
+            this.Team = Team.neutral;
+        }
+
         public int id { get; set; }
         public Vector Position { get; set; }
+        public Team Team { get; set; }
     }
 
     class Drone
@@ -86,5 +108,19 @@ namespace Quantum.Quantum
 
         public Quantum.Team CurrentTeam { get; set; }
         public Vector Speed { get; set;}
+
+        public Drone FindDroneCloseToOutpost(Outpost outpost, double radius) {
+            Vector outpostPosition = outpost.Position;
+
+            foreach (Drone drone in Drones)
+            {
+                if (1.3 * radius > Vector.Subtract(outpostPosition, drone.Position).Length)
+                {
+                    return drone;
+                }
+            }
+
+            return null;
+        }
     }
 }

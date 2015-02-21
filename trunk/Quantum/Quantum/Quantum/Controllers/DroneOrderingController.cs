@@ -27,7 +27,7 @@ namespace Quantum.Quantum.Controllers
             }
 
             if(gameEvent.isButtonPressed(Keys.Q)) {
-
+                
             }
                
         }
@@ -41,6 +41,8 @@ namespace Quantum.Quantum.Controllers
             int amountOfDroneToSend = (int)((accumulatedTime + gameEvent.deltaTime) / milsForDrone);
             accumulatedTime += gameEvent.deltaTime - amountOfDroneToSend*milsForDrone;
 
+            Outpost outpost = model.findOutpostByPosition(targetPosition);
+
             foreach (Drone dron in general.Drones)
             {
                 if (amountOfDroneToSend <= 0) break;
@@ -50,8 +52,17 @@ namespace Quantum.Quantum.Controllers
                 {
                     amountOfDroneToSend--;
 
-                    dron.TargetPosition = targetPosition;
-                    dron.Order = DroneOrder.MoveToPosition;
+                    if (outpost != null)
+                    {
+                        dron.TargetOutpost = outpost.id;
+                        dron.Order = DroneOrder.MoveToOutpost;
+                    }
+                    else
+                    {
+                        dron.TargetPosition = targetPosition;
+                        dron.Order = DroneOrder.MoveToPosition;
+                    }
+                    
                 }
             }
         }

@@ -69,11 +69,15 @@ namespace Quantum.Quantum
         
         private void initialize() {
 
+
+            controllers.Add(new OutpostConquestController());
             controllers.Add(new GeneralController());
             controllers.Add(new DroneOrderingController());
             controllers.Add(new DroneController());
             controllers.Add(new GlobalRender());
 
+
+            model.Generals.Add(model.currentGeneral);
 
             Outpost outpost = new Outpost();
             
@@ -88,6 +92,7 @@ namespace Quantum.Quantum
             drone.Order = DroneOrder.MoveToOutpost;
 
             model.currentGeneral.Drones.Add(drone);
+
 
 
             for (int i = 0; i < 1000; i++)
