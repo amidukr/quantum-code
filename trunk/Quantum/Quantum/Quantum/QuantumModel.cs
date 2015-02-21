@@ -12,6 +12,7 @@ namespace Quantum.Quantum
     {
         public const int radiusMin = 10;
         public const int radiusMax = 13;
+        public readonly double speedConstant = 1.0;
 
         public General currentGeneral = new General(Team.green);
     }
@@ -33,6 +34,7 @@ namespace Quantum.Quantum
         public List<string> Drones { get; set; }
 
         public Quantum.Team CurrentTeam { get; set; }
+        public Vector Speed { get; set;}
     }
 
     public enum Team { green, blue}
