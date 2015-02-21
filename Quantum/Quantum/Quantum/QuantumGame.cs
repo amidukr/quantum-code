@@ -78,6 +78,15 @@ namespace Quantum.Quantum
             drone.Order = DroneOrder.MoveToOutpost;
 
             model.currentGeneral.Drones.Add(drone);
+
+
+            for (int i = 0; i < 1000; i++)
+            {
+                drone = new Drone();
+                drone.Order = DroneOrder.MoveToGeneral;
+
+                model.currentGeneral.Drones.Add(drone);
+            }   
         }
 
         public void playNext(Graphics g)
