@@ -59,12 +59,24 @@ namespace Quantum.Quantum
 
         private Brush backgroundBrush = new SolidBrush(Color.FromArgb(unchecked((int)0xff444465)));
 
-        private SampleController sampleController = new SampleController();
+        private DroneController droneControler = new DroneController();
         private GlobalRender globalRender = new GlobalRender();
         private GeneralController generalController = new GeneralController();
         
         private void initialize() {
+            Outpost outpost = new Outpost();
             
+            outpost.Position = new Point(200, 200);
+            outpost.id = model.generateID();
+
+            model.Outposts.Add(outpost);
+
+            Drone drone = new Drone();
+
+            drone.TargetOutpost = outpost.id;
+            drone.Order = DroneOrder.MoveToOutpost;
+
+            model.currentGeneral.Drones.Add(drone);
         }
 
         public void playNext(Graphics g)
@@ -84,7 +96,7 @@ namespace Quantum.Quantum
 
             g.FillRectangle(backgroundBrush, g.ClipBounds);
 
-            sampleController.execute(gameEvent);
+            droneControler.execute(gameEvent);
             globalRender.execute(gameEvent);
             generalController.execute(gameEvent);
 

@@ -16,11 +16,14 @@ namespace Quantum
         private QuantumGame game = new QuantumGame();
         private BufferedGraphicsContext context;
         private BufferedGraphics grafx;
-
+        private readonly int canvasWidth, canvasHeight;
 
         public QuantumForm()
         {
             InitializeComponent();
+
+            canvasWidth  = this.Width;
+            canvasHeight = this.Height;
 
             context = BufferedGraphicsManager.Current;
             grafx = context.Allocate(this.CreateGraphics(),
