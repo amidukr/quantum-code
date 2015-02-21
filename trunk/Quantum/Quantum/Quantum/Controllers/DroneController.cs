@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace Quantum.Quantum.Controllers
 {   
@@ -18,7 +19,7 @@ namespace Quantum.Quantum.Controllers
                  || drone.Order ==  DroneOrder.MoveToGeneral;
         }
 
-        private Point getCloudCenterPosition(QuantumModel model, General general, Drone drone)
+        private Vector getCloudCenterPosition(QuantumModel model, General general, Drone drone)
         {
             if (drone.Order == DroneOrder.MoveToGeneral)
             {
@@ -33,7 +34,7 @@ namespace Quantum.Quantum.Controllers
 
         }
 
-        private void moveDroneInCloud(QuantumModel model, Drone drone, Point targetCloudCenter)
+        private void moveDroneInCloud(QuantumModel model, Drone drone, Vector targetCloudCenter)
         {
 
         }
@@ -59,7 +60,7 @@ namespace Quantum.Quantum.Controllers
 
             foreach (Outpost outpost in gameEvent.model.Outposts)
             {
-                gameEvent.graphics.DrawEllipse(grayPen, outpost.Position.X - 10, outpost.Position.Y - 10, 20, 20);
+                gameEvent.graphics.DrawEllipse(grayPen, (int)outpost.Position.X - 10, (int)outpost.Position.Y - 10, 20, 20);
             }
         }
     }

@@ -64,7 +64,10 @@ namespace Quantum.Quantum.Controllers
             else
                 gameEvent.model.currentGeneral.Velocity = new Vector(0, 0);
 
-            gameEvent.model.currentGeneral.Position = new System.Drawing.Point((int)(gameEvent.model.currentGeneral.Position.X + (gameEvent.model.currentGeneral.Velocity.X * gameEvent.deltaTime)), (int)(Math.Round(gameEvent.model.currentGeneral.Position.Y + (gameEvent.model.currentGeneral.Velocity.Y * gameEvent.deltaTime))));
+            Console.WriteLine(gameEvent.model.currentGeneral.Velocity);
+
+            gameEvent.model.currentGeneral.Position = new Vector(gameEvent.model.currentGeneral.Position.X + (gameEvent.model.currentGeneral.Velocity.X * gameEvent.deltaTime), 
+                                                                               gameEvent.model.currentGeneral.Position.Y + (gameEvent.model.currentGeneral.Velocity.Y * gameEvent.deltaTime));
         }
         private enum Direction { up, right_up, right, right_down, down, left_down, left, left_up, noChange}
     }

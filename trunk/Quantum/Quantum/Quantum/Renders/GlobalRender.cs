@@ -33,13 +33,13 @@ namespace Quantum.Quantum
 
             double angle = Math.Atan2(general.Velocity.Y, general.Velocity.X);
 
-            mat.RotateAt(90 + (float)(180*angle/Math.PI), general.Position);
+            mat.RotateAt(90 + (float)(180 * angle / Math.PI), new PointF((float)general.Position.X, (float)general.Position.Y));
             mat.Translate(-30, -55);
            // mat.Translate(10f, 10f);
 
             gameEvent.graphics.Transform = mat;
 
-            gameEvent.graphics.DrawImage(generalImage, general.Position);
+            gameEvent.graphics.DrawImage(generalImage, new Point((int)general.Position.X, (int)general.Position.Y));
 
             gameEvent.graphics.Transform = new Matrix();
             //gameEvent.graphics.DrawEllipse(grayPen, general.Position.X - 10, general.Position.Y - 10, 20, 20);
