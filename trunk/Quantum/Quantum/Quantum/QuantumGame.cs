@@ -93,7 +93,7 @@ namespace Quantum.Quantum
                 return;
             }
 
-            GameEvent gameEvent = new GameEvent(this, deltaTime/100000, g);
+            GameEvent gameEvent = new GameEvent(this, deltaTime/100000.0, g);
 
             g.FillRectangle(backgroundBrush, g.ClipBounds);
 
