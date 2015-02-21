@@ -10,8 +10,8 @@ namespace Quantum.Quantum
 {
     class QuantumModel
     {
-        readonly const int radiusMin = 10;
-        readonly const int radiusMax = 13;
+        public const int radiusMin = 10;
+        public const int radiusMax = 13;
 
         public General currentGeneral = new General(Team.red);
     }
@@ -25,7 +25,7 @@ namespace Quantum.Quantum
             Health = 3; //default value            
         }
 
-        public Team CurrentTeam { get; }
+        public Team CurrentTeam { get {return team;} }
         
         public Point CurrentPosition {get; set;}
         public Vector movingVector;
