@@ -18,16 +18,15 @@ namespace Quantum.Quantum
 
     class General
     {
-        private Team team;
+        public readonly Team Team;
+
         public General(Team team)
         {
-            this.team = team;
+            this.Team = team;
             Health = 3; //default value            
         }
-
-        public readonly Team CurrentTeam;
         
-        public Point  CurrentPosition {get; set;}
+        public Point  Position {get; set;}
         public Vector Velocity {get; set;}
 
         public int Health { get; set; }
