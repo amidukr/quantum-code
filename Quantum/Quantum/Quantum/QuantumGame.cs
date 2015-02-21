@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using Quantum.Quantum.Controllers;
 using Quantum.Quantum;
+using System.Windows;
 
 namespace Quantum.Quantum
 {
@@ -22,7 +23,7 @@ namespace Quantum.Quantum
         public readonly double deltaTime;
         public readonly QuantumGame game;
         public readonly Graphics graphics;
-        public readonly Point mousePosition;
+        public readonly Vector mousePosition;
 
         public GameEvent(QuantumGame game, double deltaTime, Graphics graphics)
         {
@@ -50,7 +51,7 @@ namespace Quantum.Quantum
 
 
         private readonly Dictionary<object, bool> keyTable = new Dictionary<object, bool>();
-        public Point mousePosition {get; set;}
+        public Vector mousePosition {get; set;}
         public readonly QuantumModel model = new QuantumModel();
 
         private long lastExecution;
@@ -66,7 +67,7 @@ namespace Quantum.Quantum
         private void initialize() {
             Outpost outpost = new Outpost();
             
-            outpost.Position = new Point(200, 200);
+            outpost.Position = new Vector(200, 200);
             outpost.id = model.generateID();
 
             model.Outposts.Add(outpost);

@@ -35,7 +35,7 @@
             // Timer
             // 
             this.Timer.Enabled = true;
-            this.Timer.Interval = 1;
+            this.Timer.Interval = 10;
             this.Timer.Tick += new System.EventHandler(this.onTimer);
             // 
             // QuantumForm

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Quantum.Quantum;
+using System.Windows;
 
 namespace Quantum
 {
@@ -60,7 +61,7 @@ namespace Quantum
 
         private void onMouseMove(object sender, MouseEventArgs e)
         {
-            game.mousePosition = new Point(e.X, e.Y);
+            game.mousePosition = new Vector(e.X, e.Y);
         }
 
         private void QuantumForm_Paint(object sender, PaintEventArgs e)

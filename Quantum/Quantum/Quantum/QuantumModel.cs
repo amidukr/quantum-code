@@ -42,7 +42,7 @@ namespace Quantum.Quantum
     class Outpost
     {   
         public int id { get; set; }
-        public Point Position { get; set; }
+        public Vector Position { get; set; }
     }
 
     class Drone
@@ -70,10 +70,10 @@ namespace Quantum.Quantum
         {
             this.Team = team;
             Health = 3; //default value   
-            Position = new Point(500, 500);
+            Position = new Vector(500, 500);
         }
         
-        public Point  Position {get; set;}
+        public Vector Position {get; set;}
         public Vector Velocity {get; set;}
 
         public int Health { get; set; }
