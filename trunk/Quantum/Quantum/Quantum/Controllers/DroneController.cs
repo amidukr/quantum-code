@@ -94,15 +94,6 @@ namespace Quantum.Quantum.Controllers
             {
                 moveDrone(gameEvent, general, drone);
             }
-
-            foreach(Drone drone in gameEvent.model.currentGeneral.Drones) {
-                gameEvent.graphics.DrawEllipse(grenPen, (int)drone.Position.X - 10, (int)drone.Position.Y - 10, 20, 20);
-            }
-
-            foreach (Outpost outpost in gameEvent.model.Outposts)
-            {
-                gameEvent.graphics.DrawEllipse(grayPen, (int)outpost.Position.X - 10, (int)outpost.Position.Y - 10, 20, 20);
-            }
         }
     }
 }
