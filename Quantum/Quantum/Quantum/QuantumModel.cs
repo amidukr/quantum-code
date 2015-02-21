@@ -25,7 +25,7 @@ namespace Quantum.Quantum
             Health = 3; //default value            
         }
 
-        public Team CurrentTeam { get;  }
+        public readonly Team CurrentTeam;
         
         public Point  CurrentPosition {get; set;}
         public Vector Velocity {get; set;}
