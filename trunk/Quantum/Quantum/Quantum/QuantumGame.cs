@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Quantum.Quantum.Controllers;
+using Quantum.Quantum;
 
 namespace Quantum.Quantum
 {
@@ -28,7 +29,6 @@ namespace Quantum.Quantum
             this.game = game;
             this.deltaTime = deltaTime;
             this.graphics = graphics;
-
             this.model = game.model;
             this.mousePosition = game.mousePosition;
         }
@@ -60,6 +60,7 @@ namespace Quantum.Quantum
         private Brush backgroundBrush = new SolidBrush(Color.FromArgb(unchecked((int)0xff444465)));
 
         private SampleController sampleController = new SampleController();
+        private GlobalRender globalRender = new GlobalRender();
         
         private void initialize() {
             
@@ -83,6 +84,8 @@ namespace Quantum.Quantum
             g.FillRectangle(backgroundBrush, g.ClipBounds);
 
             sampleController.execute(gameEvent);
+            globalRender.execute(gameEvent);
+
         }
 
 

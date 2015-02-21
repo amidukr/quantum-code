@@ -13,7 +13,7 @@ namespace Quantum.Quantum
         public const int radiusMin = 10;
         public const int radiusMax = 13;
 
-        public General currentGeneral = new General(Team.red);
+        public General currentGeneral = new General(Team.green);
     }
 
     class General
@@ -31,7 +31,9 @@ namespace Quantum.Quantum
 
         public int Health { get; set; }
         public List<string> Drones { get; set; }
+
+        public Quantum.Team CurrentTeam { get; set; }
     }
 
-    public enum Team { red, blue}
+    public enum Team { green, blue}
 }
