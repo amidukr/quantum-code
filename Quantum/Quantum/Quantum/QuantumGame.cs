@@ -98,10 +98,9 @@ namespace Quantum.Quantum
             g.FillRectangle(backgroundBrush, g.ClipBounds);
 
             droneControler.execute(gameEvent);
+            generalController.execute(gameEvent);
             globalRender.execute(gameEvent);
             globalRender.drawOutposts(gameEvent);
-            generalController.execute(gameEvent);
-            
         }
 
 

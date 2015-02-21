@@ -27,21 +27,14 @@ namespace Quantum.Quantum
                 generalImage = greenGeneralImage;
             else
                 generalImage = blueGeneralImage;
-
-            Matrix mat = new Matrix();
-            double angle = Math.Atan2(general.Velocity.Y, general.Velocity.X);
-            mat.RotateAt(90 + (float)(180 * angle / Math.PI), new PointF((float)general.Position.X, (float)general.Position.Y));
-            mat.Translate(-30, -55);
-            gameEvent.graphics.Transform = mat;           
-            gameEvent.graphics.DrawImage(generalImage, new Point((int)general.Position.X, (int)general.Position.Y));
-            gameEvent.graphics.Transform = new Matrix();
+            RotateImage(generalImage, general, gameEvent);
         }
-        public void drawOutposts(GameEvent gameEvent) 
+        public void drawOutposts(GameEvent gameEvent)
         {
             List<Outpost> Outposts = gameEvent.model.Outposts;
-            foreach (Outpost outpost in Outposts) 
+            foreach (Outpost outpost in Outposts)
             {
-                System.Drawing.Point centerOfOutpost = new System.Drawing.Point( (int)(-outpost.Position.X/2), (int)(-outpost.Position.Y/2));
+                Point centerOfOutpost = CenterOfObject(new Point((int)outpost.Position.X, (int)outpost.Position.Y));
                 if (outpost.id == 1)
                     gameEvent.graphics.DrawImage(greyOutpostImage, centerOfOutpost);
                 if (outpost.id == 2)
@@ -50,21 +43,46 @@ namespace Quantum.Quantum
                     gameEvent.graphics.DrawImage(greenOutpostImage, centerOfOutpost);
             }
         }
-        public void drawDrone(GameEvent gameEvent) 
+
+        private Point CenterOfObject(System.Windows.Vector vector)
         {
-            //Drone drone = gameEvent.model.
+            throw new NotImplementedException();
+        }
+
+        public void drawDrone(GameEvent gameEvent)
+        {
+            List<Drone> drones = gameEvent.model.currentGeneral.Drones;
+            Image droneImage;
+            if (drones.Count != 0)
+            {
+                if (gameEvent.model.currentGeneral.CurrentTeam == Team.green)
+                    droneImage = greenDroneImage;
+                else
+                    droneImage = blueDroneImage;
+                foreach (Drone drone in drones)
+                {
+                    gameEvent.graphics.DrawImage(greenDroneImage, CenterOfObject(drone.Position));
+                }
+            }
         }
         private void SimpleRotation(Image image, General general)
         {
-            
-        }
-        private void RotateImage(Image image, General general)
-        {
-            Graphics graph = Graphics.FromImage(image);
-            double rotateAngel = Math.Atan2(general.Velocity.Y, general.Velocity.X) * (180 / Math.PI);
-            graph.RotateTransform((float)rotateAngel);     
-            //gameEvent.graphics.DrawEllipse(grayPen, general.Position.X - 10, general.Position.Y - 10, 20, 20);
 
+        }
+        private void RotateImage(Image image, General general, GameEvent gameEvent)
+        {
+            Matrix mat = new Matrix();
+            double angle = Math.Atan2(general.Velocity.Y, general.Velocity.X);
+            mat.RotateAt(90 + (float)(180 * angle / Math.PI), new PointF((float)general.Position.X, (float)general.Position.Y));
+            mat.Translate(-30, -55);
+            gameEvent.graphics.Transform = mat;
+            gameEvent.graphics.DrawImage(image, new Point((int)general.Position.X, (int)general.Position.Y));
+            gameEvent.graphics.Transform = new Matrix();
+        }
+
+        private Point CenterOfObject(Point objCordinates)
+        {
+            return new Point((int)(-objCordinates.X / 2), (int)(-objCordinates.Y / 2));
         }
     }
 }
