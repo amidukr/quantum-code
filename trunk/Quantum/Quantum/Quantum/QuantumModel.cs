@@ -19,6 +19,9 @@ namespace Quantum.Quantum
         private int nextUniqueId = 1;
 
         public readonly int cloudRadius = 90;
+        public readonly int moveToPositionRadius = 5;
+
+        public readonly double milsOrderFactor = 100000000;
 
         public readonly double speedConstant = 1.0;
         public readonly double dronSpeedConstant = 1.8;
