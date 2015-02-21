@@ -69,8 +69,9 @@ namespace Quantum.Quantum
         
         private void initialize() {
 
-            controllers.Add(new DroneController());
             controllers.Add(new GeneralController());
+            controllers.Add(new DroneOrderingController());
+            controllers.Add(new DroneController());
             controllers.Add(new GlobalRender());
 
 
@@ -89,7 +90,7 @@ namespace Quantum.Quantum
             model.currentGeneral.Drones.Add(drone);
 
 
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 drone = new Drone();
                 drone.Order = DroneOrder.MoveToGeneral;

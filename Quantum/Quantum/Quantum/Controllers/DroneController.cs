@@ -14,11 +14,6 @@ namespace Quantum.Quantum.Controllers
         private Pen grayPen = new Pen(Color.Gray, 3);
         private Random random = new Random();
 
-        private bool isDroneMovingIntoCloud(Drone drone)
-        {
-            return  drone.Order == DroneOrder.MoveToGeneral 
-                 || drone.Order ==  DroneOrder.MoveToOutpost;
-        }
 
         private Vector getCloudCenterPosition(QuantumModel model, General general, Drone drone)
         {
@@ -30,16 +25,22 @@ namespace Quantum.Quantum.Controllers
             {
                 return model.findOutpostById(drone.TargetOutpost).Position;
             }
+            else if (drone.Order == DroneOrder.MoveToPosition)
+            {
+                return drone.TargetPosition;
+            }
 
             throw new Exception("Unable to found cloud center position");
 
         }
 
-        private void moveDroneInCloud(GameEvent gameEvent, Drone drone, Vector targetCloudCenter)
+        private void moveDrone(GameEvent gameEvent, General general, Drone drone)
         {
+            Vector targetPosition = getCloudCenterPosition(gameEvent.model, general, drone);
+
             QuantumModel model = gameEvent.model;
             double cloudRadius = model.cloudRadius;
-            Vector distanceToCenter = Vector.Subtract(targetCloudCenter, drone.Position);
+            Vector distanceToCenter = Vector.Subtract(targetPosition, drone.Position);
             Vector directionToCenter = distanceToCenter;
 
 
@@ -51,15 +52,35 @@ namespace Quantum.Quantum.Controllers
             double precision = 0.9;
             double randomValue = random.NextDouble()*precision*2 + 1 - precision;
 
-            //double randomValue = random.NextDouble();
-            
-            if (distanceToCenter.Length > cloudRadius + positionChange)
+            double minDistanceForAction;
+
+            if (   drone.Order == DroneOrder.MoveToGeneral
+                || drone.Order == DroneOrder.MoveToOutpost)
             {
-                drone.Position = Vector.Add(drone.Position, Vector.Multiply(droneMovement, randomValue));
+                minDistanceForAction = model.cloudRadius;
+            }
+            else if (drone.Order == DroneOrder.MoveToPosition)
+            {
+                minDistanceForAction = model.moveToPositionRadius;
             }
             else
             {
+                minDistanceForAction = 1;
+            }
+
+            if (distanceToCenter.Length > minDistanceForAction + positionChange)
+            {
+                drone.Position = Vector.Add(drone.Position, Vector.Multiply(droneMovement, randomValue));
+                
+            }
+            else if(  drone.Order == DroneOrder.MoveToGeneral 
+                    || drone.Order ==  DroneOrder.MoveToOutpost)
+            {
                 drone.Position = Vector.Add(drone.Position, new Vector(randomValue * droneMovement.Y, -randomValue*droneMovement.X));
+            } 
+            else if(drone.Order == DroneOrder.MoveToPosition) 
+            {
+                drone.Order = DroneOrder.MoveToGeneral;
             }
         }
 
@@ -71,11 +92,7 @@ namespace Quantum.Quantum.Controllers
 
             foreach (Drone drone in general.Drones)
             {
-                if (isDroneMovingIntoCloud(drone))
-                {
-                    moveDroneInCloud(gameEvent, drone, getCloudCenterPosition(gameEvent.model, general, drone));
-                }
-
+                moveDrone(gameEvent, general, drone);
             }
 
             foreach(Drone drone in gameEvent.model.currentGeneral.Drones) {
