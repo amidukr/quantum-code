@@ -24,14 +24,17 @@ namespace Quantum.Quantum
         public readonly QuantumGame game;
         public readonly Graphics graphics;
         public readonly Vector mousePosition;
+        public readonly double width, height;
 
-        public GameEvent(QuantumGame game, double deltaTime, Graphics graphics)
+        public GameEvent(QuantumGame game, double deltaTime, Graphics graphics, double width, double height)
         {
             this.game = game;
             this.deltaTime = deltaTime;
             this.graphics = graphics;
             this.model = game.model;
             this.mousePosition = game.mousePosition;
+            this.width = width;
+            this.height = height;
         }
 
         public Boolean isButtonPressed(Keys key)
@@ -104,7 +107,7 @@ namespace Quantum.Quantum
             }   
         }
 
-        public void playNext(Graphics g)
+        public void playNext(Graphics g, double width, double height)
         {
             long currentTime = System.DateTime.Now.Ticks;
             long deltaTime   = currentTime - lastExecution;
@@ -117,13 +120,12 @@ namespace Quantum.Quantum
                 return;
             }
 
-            GameEvent gameEvent = new GameEvent(this, deltaTime/100000.0, g);
+            GameEvent gameEvent = new GameEvent(this, deltaTime / 100000.0, g, width, height);
 
             foreach (GameController controller in controllers)
             {
                 controller.execute(gameEvent);
             }
-            globalRender.drawDrone(gameEvent);
         }
 
 
