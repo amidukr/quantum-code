@@ -42,12 +42,12 @@ namespace Quantum.Quantum
             List<Outpost> Outposts = gameEvent.model.Outposts;
             foreach (Outpost outpost in Outposts)
             {
-                if (outpost.id == 1)
-                    gameEvent.graphics.DrawImage(greyOutpostImage, (int)outpost.Position.X - 40, (int)outpost.Position.Y - 40, 80, 80);
-                if (outpost.id == 2)
-                    gameEvent.graphics.DrawImage(blueOutpostImage, (int)outpost.Position.X - 40, (int)outpost.Position.Y - 40, 80, 80);
-                if (outpost.id == 3)
-                    gameEvent.graphics.DrawImage(greenOutpostImage, (int)outpost.Position.X - 40, (int)outpost.Position.Y - 40, 80, 80);
+                if (outpost.Team == Team.neutral)
+                    gameEvent.graphics.DrawImage(greyOutpostImage, (int)outpost.Position.X - 50, (int)outpost.Position.Y - 50, 100, 100);
+                else if (outpost.Team == Team.blue)
+                    gameEvent.graphics.DrawImage(blueOutpostImage, (int)outpost.Position.X - 50, (int)outpost.Position.Y - 50, 100, 100);
+                else if (outpost.Team == Team.green)
+                    gameEvent.graphics.DrawImage(greenOutpostImage, (int)outpost.Position.X - 50, (int)outpost.Position.Y - 50, 100, 100);
             }
         }
         public void drawDrone(GameEvent gameEvent)
@@ -62,7 +62,7 @@ namespace Quantum.Quantum
                     droneImage = blueDroneImage;
                 foreach (Drone drone in drones)
                 {
-                    gameEvent.graphics.DrawImage(droneImage, (int)drone.Position.X - 5, (int)drone.Position.Y - 5, 10, 10);
+                    gameEvent.graphics.DrawImage(droneImage, (int)drone.Position.X - 8, (int)drone.Position.Y - 8, 16, 16);
                 }
             }
         }
