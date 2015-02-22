@@ -22,6 +22,7 @@ namespace Quantum.Quantum
         public readonly int moveToPositionRadius = 5;
 
         public readonly double milsOrderFactor = 100000000;
+        public readonly double milsPerDronToRecruite = 0.2;
 
         public readonly double speedConstant = 1.0;
         public readonly double dronSpeedConstant = 1.8;
