@@ -72,8 +72,8 @@ namespace Quantum.Quantum
 
         private QuantumMapBuilder mapBuilder = new QuantumMapBuilder();
 
-        private Image greenGameOver = Image.FromFile(@"Resources\blue-game-over.png");
-        private Image blueGameOver  = Image.FromFile(@"Resources\green-game-over.png");
+        private Image greenGameOver = Image.FromFile(@"Resources\green-game-over.png");
+        private Image blueGameOver  = Image.FromFile(@"Resources\blue-game-over.png");
 
         private void initialize(double width, double height)
         {
