@@ -72,6 +72,7 @@ namespace Quantum.Quantum
                 }
             }
         }
+
         private void RotateImage(Image image, General general, GameEvent gameEvent)
         {
             Matrix mat = new Matrix();
