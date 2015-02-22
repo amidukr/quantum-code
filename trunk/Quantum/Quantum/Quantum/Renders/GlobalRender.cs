@@ -9,6 +9,7 @@ namespace Quantum.Quantum
 {
     class GlobalRender : GameController
     {
+        private Image background = Image.FromFile(@"Resources\Background.jpg");
         private Image blueGeneralImage = Image.FromFile(@"Resources\blue-general.png");
         private Image greenGeneralImage = Image.FromFile(@"Resources\green-general.png");
         private Image blueDroneImage = Image.FromFile(@"Resources\blue-drone.png");
@@ -21,8 +22,13 @@ namespace Quantum.Quantum
 
         public void execute(GameEvent gameEvent)
         {
+            if (gameEvent.graphics == null) return;
+
+            gameEvent.graphics.DrawImage(background, 0, 0, (float)gameEvent.width, (float)gameEvent.height);
+
             drawOutposts(gameEvent);
             drawGeneral(gameEvent);
+            drawDrone(gameEvent);
         }
 
         private void drawGeneral(GameEvent gameEvent)

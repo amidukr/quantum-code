@@ -90,6 +90,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Resources\Background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

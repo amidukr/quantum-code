@@ -23,8 +23,8 @@ namespace Quantum
         {
             InitializeComponent();
 
-            canvasWidth  = this.Width;
-            canvasHeight = this.Height;
+            canvasWidth  = 1024;
+            canvasHeight = 1024;
 
             context = BufferedGraphicsManager.Current;
             grafx = context.Allocate(this.CreateGraphics(),
@@ -33,10 +33,8 @@ namespace Quantum
 
         private void onTimer(object sender, EventArgs e)
         {
-            using(Graphics graphics = this.CreateGraphics()) {
-                game.playNext(grafx.Graphics);
-                this.Refresh();
-            }
+            game.playNext(null, Width, Height);
+            this.Refresh();
         }
 
         private void onKeyDown(object sender, KeyEventArgs e)
@@ -66,7 +64,7 @@ namespace Quantum
 
         private void QuantumForm_Paint(object sender, PaintEventArgs e)
         {
-            game.playNext(e.Graphics);
+            game.playNext(e.Graphics, Width, Height);
         }
     }
 }
