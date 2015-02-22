@@ -68,6 +68,7 @@ namespace Quantum.Quantum
         public void drawDrone(GameEvent gameEvent, General general)
         {
             List<Drone> drones = general.Drones;
+            int scale = 16, doubleScale = scale * 2;
             Image droneImage;
             if (drones.Count != 0)
             {
@@ -77,7 +78,10 @@ namespace Quantum.Quantum
                     droneImage = blueDroneImage;
                 foreach (Drone drone in drones)
                 {
-                    gameEvent.graphics.DrawImage(droneImage, (int)drone.Position.X - 8, (int)drone.Position.Y - 8, 16, 16);
+                    if (drone.Order == DroneOrder.MoveToOutpost && scale>8)
+                    { scale -- ; doubleScale = scale * 2; }
+                    else if (scale<16) { scale++; doubleScale = scale * 2; }
+                    gameEvent.graphics.DrawImage(droneImage, (int)drone.Position.X - scale, (int)drone.Position.Y - scale, doubleScale, doubleScale);
                 }
             }
         }
@@ -92,6 +96,32 @@ namespace Quantum.Quantum
             gameEvent.graphics.DrawImage(image, (int)general.Position.X, (int)general.Position.Y, 32, 55);
             gameEvent.graphics.Transform = new Matrix();
         }
+
+       /* private void drawBeam(GameEvent gameEvent) 
+        {
+            List<Beams> drones = gameEvent.model.currentGeneral.Beams;
+            Pen whitePen = new Pen(Color.White, 3);
+            Pen mainPen, helpPen;
+            if (drones.Count != 0)
+            {
+                if (gameEvent.model.currentGeneral.CurrentTeam == Team.green)
+                {
+                    mainPen = new Pen(Color.Green, 5);
+                    helpPen = new Pen(Color.DarkGreen, 7);
+                }
+                else
+                {
+                    mainPen = new Pen(Color.Blue, 5);
+                    helpPen = new Pen(Color.DarkBlue, 7);
+                }
+                foreach (Drone drone in drones)
+                {
+                    gameEvent.graphics.DrawLine(helpPen, (int)drone.Position.X - 8, (int)drone.Position.Y - 8, 16, 16);
+                    gameEvent.graphics.DrawLine(mainPen, (int)drone.Position.X - 8, (int)drone.Position.Y - 8, 16, 16);
+                    gameEvent.graphics.DrawLine(whitePen, (int)drone.Position.X - 8, (int)drone.Position.Y - 8, 16, 16);
+                }
+            }
+        }*/
 
     }
 }
