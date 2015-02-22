@@ -33,7 +33,8 @@ namespace Quantum
 
         private void onTimer(object sender, EventArgs e)
         {
-            game.playNext(null, Width, Height);
+            restartButton.Visible = game.playNext(null, Width, Height);
+            restartButton.Enabled = restartButton.Visible;
             this.Refresh();
         }
 
@@ -67,6 +68,12 @@ namespace Quantum
         private void QuantumForm_Paint(object sender, PaintEventArgs e)
         {
             game.playNext(e.Graphics, Width, Height);
+        }
+
+        private void onRestart(object sender, EventArgs e)
+        {
+            game = new QuantumGame();
+            this.ActiveControl = null;
         }
     }
 }

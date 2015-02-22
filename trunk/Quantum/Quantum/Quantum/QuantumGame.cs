@@ -25,8 +25,9 @@ namespace Quantum.Quantum
         public readonly Graphics graphics;
         public readonly Vector mousePosition;
         public readonly double width, height;
+        public readonly Team winner;
 
-        public GameEvent(QuantumGame game, double deltaTime, Graphics graphics, double width, double height)
+        public GameEvent(QuantumGame game, double deltaTime, Graphics graphics, Team winner, double width, double height)
         {
             this.game = game;
             this.deltaTime = deltaTime;
@@ -35,15 +36,18 @@ namespace Quantum.Quantum
             this.mousePosition = game.mousePosition;
             this.width = width;
             this.height = height;
+            this.winner = winner;
         }
 
         public Boolean isButtonPressed(Keys key)
         {
+            if(winner != Team.neutral) return false;
             return game.isButtonPressed(key);
         }
 
         public Boolean isButtonPressed(MouseButtons key)
         {
+            if(winner != Team.neutral) return false;
             return game.isButtonPressed(key);
         }
     }
@@ -68,7 +72,8 @@ namespace Quantum.Quantum
 
         private QuantumMapBuilder mapBuilder = new QuantumMapBuilder();
 
-        
+        private Image greenGameOver = Image.FromFile(@"Resources\blue-game-over.png");
+        private Image blueGameOver  = Image.FromFile(@"Resources\green-game-over.png");
 
         private void initialize(double width, double height)
         {
@@ -88,7 +93,32 @@ namespace Quantum.Quantum
             
         }
 
-        public void playNext(Graphics g, double width, double height)
+        private Team checkWinCondition()
+        {
+            HashSet<Team> outpostHolders = new HashSet<Team>();
+
+            foreach (Outpost outpost in model.Outposts)
+            {
+                outpostHolders.Add(outpost.Team);
+            }
+
+            foreach (General general in model.Generals)
+            {
+                if (general.Drones.Count > 0)
+                {
+                    outpostHolders.Add(general.Team);
+                }
+            }
+
+            if (outpostHolders.Count == 1 && outpostHolders.First() != Team.neutral)
+            {
+                return outpostHolders.First();
+            }
+
+            return Team.neutral;
+        }
+
+        public bool playNext(Graphics g, double width, double height)
         {
             long currentTime = System.DateTime.Now.Ticks;
             long deltaTime   = currentTime - lastExecution;
@@ -98,21 +128,42 @@ namespace Quantum.Quantum
             {
                 initialize(width, height);
                 firstExecution = false;
-                return;
+                return false;
             }
 
-            GameEvent gameEvent = new GameEvent(this, deltaTime / 100000.0, g, width, height);
+
+
+            Team winner = checkWinCondition();
+
+            GameEvent gameEvent = new GameEvent(this, deltaTime / 100000.0, g, winner, width, height);
 
             foreach (GameController controller in controllers)
             {
                 controller.execute(gameEvent);
             }
+
+
+
+            if (winner != Team.neutral)
+            {
+                Image gameOverImage = null;
+                gameOverImage = (winner == Team.blue) ? greenGameOver : blueGameOver;
+
+                if (gameEvent.graphics != null)
+                {
+                    gameEvent.graphics.DrawImage(gameOverImage, (int)(width - gameOverImage.Width) / 2, (int)(height - gameOverImage.Height) / 2);
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
 
 
         public Boolean isButtonPressed(Object key)
-        {
+        {   
             return !keyTable.ContainsKey(key) ? false : keyTable[key];
         }
 
