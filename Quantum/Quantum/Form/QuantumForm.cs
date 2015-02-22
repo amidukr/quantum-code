@@ -50,6 +50,8 @@ namespace Quantum
         private void onMouseDown(object sender, MouseEventArgs e)
         {
             game.changeInputState(e.Button, true);
+
+            Console.WriteLine("Mouse Down: " + e.X + "; " + e.Y);
         }
 
         private void onMouseUp(object sender, MouseEventArgs e)

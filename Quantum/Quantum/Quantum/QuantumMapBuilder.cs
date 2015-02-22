@@ -60,8 +60,13 @@ namespace Quantum.Quantum
             General blueGeneral  = createGeneral(model, new Vector(width - 50, height / 2 - 50), Team.blue);
 
 
-            Outpost outpostGreen = createOutpost(model, new Vector(300, 300));
-            Outpost outpostBlue  = createOutpost(model, new Vector(width-300, height-300));
+            Outpost outpostGreen = createOutpost(model, new Vector(700, 135));
+            Outpost outpostBlue  = createOutpost(model, new Vector(width-700, height-135));
+
+
+            createOutpost(model, new Vector(width/2, height/2));
+            createOutpost(model, new Vector(width - 500, 250));
+            createOutpost(model, new Vector(500,         height - 250));
 
 
 
