@@ -45,6 +45,11 @@ namespace Quantum.Quantum.Controllers
 
 
             double positionChange = model.dronSpeedConstant * gameEvent.deltaTime;
+            if (directionToCenter.Length == 0)
+            {
+                drone.Position += new Vector(random.NextDouble(), random.NextDouble());
+                return;
+            }
             directionToCenter.Normalize();
 
             Vector droneMovement = Vector.Multiply(positionChange, directionToCenter);
