@@ -10,62 +10,70 @@ namespace Quantum.Quantum.Controllers
 {
     class GeneralController : GameController
     {
-        //private Pen blackPen = new Pen(Color.Black, 3);
+        private readonly Keys upButton;
+        private readonly Keys downButton;
+        private readonly Keys leftButton;
+        private readonly Keys rightButton;
+        private readonly Team team;
+
+        public GeneralController(Keys upButton, Keys downButton, Keys leftButton, Keys rightButton, Team team)
+        {
+            this.upButton    = upButton;
+            this.downButton  = downButton;
+            this.leftButton  = leftButton;
+            this.rightButton = rightButton;
+            this.team = team;
+        }
 
         public void execute(GameEvent gameEvent)
         {
+            QuantumModel model = gameEvent.model;
+            General general = model.FindGeneralByTeam(team);
+
             double angle = -10;
-            Vector prev = gameEvent.model.currentGeneral.Velocity;
-            Direction direction = Direction.noChange;
-            if (gameEvent.isButtonPressed(Keys.W) && gameEvent.isButtonPressed(Keys.D))
+            Vector prev = general.Velocity;
+            
+            if (gameEvent.isButtonPressed(upButton) && gameEvent.isButtonPressed(rightButton))
             {
                 angle = -Math.PI/4;
-                direction = Direction.right_up;
             }
-            else if (gameEvent.isButtonPressed(Keys.S) && gameEvent.isButtonPressed(Keys.D))
+            else if (gameEvent.isButtonPressed(downButton) && gameEvent.isButtonPressed(rightButton))
             {
                 angle = Math.PI/4;
-                direction = Direction.right_down;
             }
-            else if (gameEvent.isButtonPressed(Keys.S) && gameEvent.isButtonPressed(Keys.A))
+            else if (gameEvent.isButtonPressed(downButton) && gameEvent.isButtonPressed(leftButton))
             {   
                 angle = 3*Math.PI/4;
-                direction = Direction.left_down;
             }
-            else if (gameEvent.isButtonPressed(Keys.A) && gameEvent.isButtonPressed(Keys.W))
+            else if (gameEvent.isButtonPressed(leftButton) && gameEvent.isButtonPressed(upButton))
             {
                 angle = -(3*Math.PI/4);
-                direction = Direction.left_up;
             }
-            else if (gameEvent.isButtonPressed(Keys.W))
+            else if (gameEvent.isButtonPressed(upButton))
             {
                 angle = -Math.PI/2;
-                direction = Direction.up;
             }
-            else if (gameEvent.isButtonPressed(Keys.D))
+            else if (gameEvent.isButtonPressed(rightButton))
             {
                 angle = 0;
-                direction = Direction.right;
             }
-            else if (gameEvent.isButtonPressed(Keys.S))
+            else if (gameEvent.isButtonPressed(downButton))
             {
                 angle = Math.PI/2;
-                direction = Direction.down;
             }
-            else if (gameEvent.isButtonPressed(Keys.A))
+            else if (gameEvent.isButtonPressed(leftButton))
             {
                 angle = -Math.PI;
-                direction = Direction.left;
             }
             
             if (angle != -10)
-                gameEvent.model.currentGeneral.Velocity = new Vector(Math.Cos(angle) * gameEvent.model.speedConstant, Math.Sin(angle) * gameEvent.model.speedConstant);
+                general.Velocity = new Vector(Math.Cos(angle) * gameEvent.model.speedConstant, Math.Sin(angle) * gameEvent.model.speedConstant);
             else
-                gameEvent.model.currentGeneral.Velocity = new Vector(0, 0);
+                general.Velocity = new Vector(0, 0);
 
 
-            gameEvent.model.currentGeneral.Position = new Vector(gameEvent.model.currentGeneral.Position.X + (gameEvent.model.currentGeneral.Velocity.X * gameEvent.deltaTime), 
-                                                                               gameEvent.model.currentGeneral.Position.Y + (gameEvent.model.currentGeneral.Velocity.Y * gameEvent.deltaTime));
+            general.Position = new Vector(general.Position.X + (general.Velocity.X * gameEvent.deltaTime),
+                                          general.Position.Y + (general.Velocity.Y * gameEvent.deltaTime));
         }
         private enum Direction { up, right_up, right, right_down, down, left_down, left, left_up, noChange}
     }

@@ -66,45 +66,22 @@ namespace Quantum.Quantum
 
         private List<GameController> controllers = new List<GameController>();
 
-        private DroneController droneControler = new DroneController();
-        private GlobalRender globalRender = new GlobalRender();
-        private GeneralController generalController = new GeneralController();
-        
-        private void initialize() {
+        private QuantumMapBuilder mapBuilder = new QuantumMapBuilder();
+
+        private void initialize(double width, double height)
+        {
 
 
             controllers.Add(new OutpostConquestController());
-            controllers.Add(new GeneralController());
-            controllers.Add(new DroneOrderingController());
+            controllers.Add(new GeneralController(Keys.W,  Keys.S,    Keys.A,    Keys.D,     Team.green));
+            controllers.Add(new GeneralController(Keys.Up, Keys.Down, Keys.Left, Keys.Right, Team.blue));
+            controllers.Add(new DroneOrderingController(Team.green, Keys.Q, MouseButtons.Left));
+            controllers.Add(new DroneOrderingController(Team.blue, Keys.Shift, MouseButtons.Right));
             controllers.Add(new DroneController());
             controllers.Add(new GlobalRender());
 
-
-            model.Generals.Add(model.currentGeneral);
-
-            Outpost outpost = new Outpost();
+            mapBuilder.initializeMap(this, width, height);
             
-            outpost.Position = new Vector(200, 200);
-            outpost.id = model.generateID();
-
-            model.Outposts.Add(outpost);
-
-            Drone drone = new Drone();
-
-            drone.TargetOutpost = outpost.id;
-            drone.Order = DroneOrder.MoveToOutpost;
-
-            model.currentGeneral.Drones.Add(drone);
-
-
-
-            for (int i = 0; i < 1000; i++)
-            {
-                drone = new Drone();
-                drone.Order = DroneOrder.MoveToGeneral;
-
-                model.currentGeneral.Drones.Add(drone);
-            }   
         }
 
         public void playNext(Graphics g, double width, double height)
@@ -115,7 +92,7 @@ namespace Quantum.Quantum
 
             if (firstExecution)
             {
-                initialize();
+                initialize(width, height);
                 firstExecution = false;
                 return;
             }

@@ -59,6 +59,7 @@
     <Compile Include="Quantum\Controllers\DroneOrderingController.cs" />
     <Compile Include="Quantum\Controllers\GeneralController.cs" />
     <Compile Include="Quantum\Controllers\OutpostConquestController.cs" />
+    <Compile Include="Quantum\QuantumMapBuilder.cs" />
     <Compile Include="Quantum\QuantumGame.cs" />
     <Compile Include="Quantum\QuantumModel.cs" />
     <Compile Include="Quantum\Renders\GlobalRender.cs" />

@@ -12,16 +12,26 @@ namespace Quantum.Quantum.Controllers
         private double orderAccumulatedTime = 0;
         private double recruiteAccumulatedTime = 0;
 
+        private readonly Keys recruiteKey;
+        private readonly MouseButtons orderButton;
+        private readonly Team team;
+
+        public DroneOrderingController(Team team, Keys recruiteKey, MouseButtons orderButton)
+        {
+            this.team = team;
+            this.recruiteKey = recruiteKey;
+            this.orderButton = orderButton;
+        }
 
         public void execute(GameEvent gameEvent)
         {
             QuantumModel model = gameEvent.model;
             double cloudRadius = model.cloudRadius;
-            General general = model.currentGeneral;
+            General general = model.FindGeneralByTeam(team);
             Vector targetPosition = gameEvent.mousePosition;
             
 
-            if (gameEvent.isButtonPressed(MouseButtons.Left)) {
+            if (gameEvent.isButtonPressed(orderButton)) {
                 giveOrderToDrones(gameEvent, model, general, targetPosition, cloudRadius);
             }
             else
@@ -29,7 +39,7 @@ namespace Quantum.Quantum.Controllers
                 orderAccumulatedTime = 0;
             }
 
-            if(gameEvent.isButtonPressed(Keys.Q)) 
+            if(gameEvent.isButtonPressed(recruiteKey)) 
             {
                 recruiteDrones(gameEvent, model, general, cloudRadius);
             }

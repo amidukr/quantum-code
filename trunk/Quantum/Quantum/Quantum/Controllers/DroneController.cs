@@ -87,12 +87,13 @@ namespace Quantum.Quantum.Controllers
         public void execute(GameEvent gameEvent)
         {
             QuantumModel model = gameEvent.model;
-            General general = model.currentGeneral;
 
-
-            foreach (Drone drone in general.Drones)
+            foreach (General general in model.Generals)
             {
-                moveDrone(gameEvent, general, drone);
+                foreach (Drone drone in general.Drones)
+                {
+                    moveDrone(gameEvent, general, drone);
+                }
             }
         }
     }
