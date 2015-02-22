@@ -131,4 +131,15 @@ namespace Quantum.Quantum
             return null;
         }
     }
+    class Beam
+    {
+        public readonly int TimeToLive_Iterations = 10;
+        public Point position1;
+        public Point position2;
+        public Beam(Point position1, Point position2)
+        {
+            this.position1 = position1;
+            this.position2 = position2;
+        }
+    }
 }
