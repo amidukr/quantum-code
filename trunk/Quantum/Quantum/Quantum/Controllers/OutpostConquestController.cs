@@ -27,13 +27,23 @@ namespace Quantum.Quantum.Controllers
             
 
             foreach(Outpost outpost in gameEvent.model.Outposts) {
-                HashSet<General> generalsParticipators = new HashSet<General>();
+                HashSet<General> generalsDroneParticipators = new HashSet<General>();
 
                 foreach(General general in model.Generals) {
                     if(general.FindDroneCloseToOutpost(outpost, model.cloudRadius) != null) {
-                        generalsParticipators.Add(general);
+                        generalsDroneParticipators.Add(general);
                     }
+                }
 
+                if (generalsDroneParticipators.Count == 1)
+                {
+                    outpost.Team = generalsDroneParticipators.First().Team;
+                    continue;
+                }
+
+                HashSet<General> generalsParticipators = new HashSet<General>();
+                foreach (General general in model.Generals)
+                {
                     if (Vector.Subtract(general.Position, outpost.Position).Length < model.cloudRadius)
                     {
                         generalsParticipators.Add(general);
@@ -42,13 +52,7 @@ namespace Quantum.Quantum.Controllers
 
                 if (generalsParticipators.Count == 1)
                 {
-                    Team newTeam = generalsParticipators.First().Team;
-                    if (outpost.Team != newTeam)
-                    {
-                        Console.WriteLine("Outpost was conquested by " + newTeam);
-                    }
-
-                    outpost.Team = newTeam;
+                    outpost.Team = generalsParticipators.First().Team;
                 }
             }
         }
