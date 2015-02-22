@@ -26,7 +26,7 @@ namespace Quantum.Quantum
 
         public readonly double speedConstant = 1.0;
         public readonly double dronSpeedConstant = 1.8;
-        public readonly double outpostConquestTime = 1000;
+        public readonly double outpostConquestTime = 300;
 
         public readonly List<General> Generals = new List<General>();
         public readonly List<Outpost> Outposts = new List<Outpost>();
