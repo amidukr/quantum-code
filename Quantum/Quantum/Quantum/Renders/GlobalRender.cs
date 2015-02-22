@@ -58,7 +58,7 @@ namespace Quantum.Quantum
             foreach (Outpost outpost in Outposts)
             {
                 if (outpost.Team == Team.neutral)
-                    gameEvent.graphics.DrawImage(greyOutpostImage, (int)outpost.Position.X - 50, (int)outpost.Position.Y - 50, 100, 100);
+                    gameEvent.graphics.DrawImage(greyOutpostImage, (int)outpost.Position.X - 80, (int)outpost.Position.Y - 80, 160, 160);
                 else if (outpost.Team == Team.blue)
                     gameEvent.graphics.DrawImage(blueOutpostImage, (int)outpost.Position.X - 50, (int)outpost.Position.Y - 50, 100, 100);
                 else if (outpost.Team == Team.green)
