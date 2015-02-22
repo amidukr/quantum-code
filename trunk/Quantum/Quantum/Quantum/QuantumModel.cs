@@ -47,7 +47,7 @@ namespace Quantum.Quantum
         {
             foreach (Outpost outpost in this.Outposts)
             {
-                if (Vector.Subtract(position, outpost.Position).Length < cloudRadius*3)
+                if (Vector.Subtract(position, outpost.Position).Length < cloudRadius)
                 {
                     return outpost;
                 }
