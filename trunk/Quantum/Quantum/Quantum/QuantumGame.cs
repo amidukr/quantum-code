@@ -76,8 +76,9 @@ namespace Quantum.Quantum
             controllers.Add(new GeneralController(Keys.W,  Keys.S,    Keys.A,    Keys.D,     Team.green));
             controllers.Add(new GeneralController(Keys.Up, Keys.Down, Keys.Left, Keys.Right, Team.blue));
             controllers.Add(new DroneOrderingController(Team.green, Keys.Q, MouseButtons.Left));
-            controllers.Add(new DroneOrderingController(Team.blue, Keys.Shift, MouseButtons.Right));
+            controllers.Add(new DroneOrderingController(Team.blue, Keys.ShiftKey, MouseButtons.Right));
             controllers.Add(new DroneController());
+            controllers.Add(new DrownRespawnerController());
             controllers.Add(new GlobalRender());
 
             mapBuilder.initializeMap(this, width, height);

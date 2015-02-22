@@ -18,6 +18,9 @@ namespace Quantum.Quantum
     {
         private int nextUniqueId = 1;
 
+        public readonly int maxRespawnAmount = 100;
+        public readonly double milsPerDronRespawn = 60;
+
         public readonly int cloudRadius = 90;
         public readonly int moveToPositionRadius = 5;
 
@@ -40,7 +43,7 @@ namespace Quantum.Quantum
             return null;
         }
 
-        public Outpost findOutpostByPosition(Vector position)
+        public Outpost findOutpostByPosition(Vector position, double cloudRadius)
         {
             foreach (Outpost outpost in this.Outposts)
             {
@@ -79,6 +82,7 @@ namespace Quantum.Quantum
         public int id { get; set; }
         public Vector Position { get; set; }
         public Team Team { get; set; }
+        public double respawnTimerAccumulator { get; set; }
     }
 
     class Drone

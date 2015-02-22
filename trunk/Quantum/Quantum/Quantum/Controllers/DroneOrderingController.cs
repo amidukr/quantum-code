@@ -77,7 +77,7 @@ namespace Quantum.Quantum.Controllers
 
             if (amountOfDroneToRecruite <= 0) return;
 
-            Outpost outpost = model.findOutpostByPosition(general.Position);
+            Outpost outpost = model.findOutpostByPosition(general.Position, 1.5 * model.cloudRadius);
 
             if (outpost == null) return;
 
@@ -102,7 +102,7 @@ namespace Quantum.Quantum.Controllers
             int amountOfDroneToSend = (int)((orderAccumulatedTime + gameEvent.deltaTime) / milsForDrone);
             orderAccumulatedTime += gameEvent.deltaTime - amountOfDroneToSend * milsForDrone;
 
-            Outpost outpost = model.findOutpostByPosition(targetPosition);
+            Outpost outpost = model.findOutpostByPosition(targetPosition, model.cloudRadius);
 
             foreach (Drone dron in general.Drones)
             {
