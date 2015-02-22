@@ -81,7 +81,15 @@ namespace Quantum.Quantum.Controllers
             else if(  drone.Order == DroneOrder.MoveToGeneral 
                     || drone.Order ==  DroneOrder.MoveToOutpost)
             {
-                drone.Position = Vector.Add(drone.Position, new Vector(randomValue * droneMovement.Y, -randomValue*droneMovement.X));
+                if (general.Team == Team.green)
+                {
+                    drone.Position = Vector.Add(drone.Position, new Vector(randomValue * droneMovement.Y, -randomValue * droneMovement.X));
+                }
+                else
+                {
+                    drone.Position = Vector.Add(drone.Position, new Vector(randomValue * -droneMovement.Y, randomValue * droneMovement.X));
+                }
+                
             } 
             else if(drone.Order == DroneOrder.MoveToPosition) 
             {
