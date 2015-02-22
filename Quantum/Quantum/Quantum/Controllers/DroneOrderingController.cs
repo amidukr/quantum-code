@@ -34,18 +34,10 @@ namespace Quantum.Quantum.Controllers
             if (gameEvent.isButtonPressed(orderButton)) {
                 giveOrderToDrones(gameEvent, model, general, targetPosition, cloudRadius);
             }
-            else
-            {
-                orderAccumulatedTime = 0;
-            }
 
             if(gameEvent.isButtonPressed(recruiteKey)) 
             {
                 recruiteDrones(gameEvent, model, general, cloudRadius);
-            }
-            else
-            {
-                recruiteAccumulatedTime = 0;
             }
                
         }

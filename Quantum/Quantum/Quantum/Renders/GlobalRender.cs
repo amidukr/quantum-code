@@ -68,7 +68,7 @@ namespace Quantum.Quantum
         public void drawDrone(GameEvent gameEvent, General general)
         {
             List<Drone> drones = general.Drones;
-            int scale = 16, doubleScale = scale * 2;
+            int scale = 10, doubleScale = scale * 2;
             Image droneImage;
             if (drones.Count != 0)
             {
@@ -76,11 +76,9 @@ namespace Quantum.Quantum
                     droneImage = greenDroneImage;
                 else
                     droneImage = blueDroneImage;
+
                 foreach (Drone drone in drones)
-                {
-                    if (drone.Order == DroneOrder.MoveToOutpost && scale>8)
-                    { scale -- ; doubleScale = scale * 2; }
-                    else if (scale<16) { scale++; doubleScale = scale * 2; }
+                {   
                     gameEvent.graphics.DrawImage(droneImage, (int)drone.Position.X - scale, (int)drone.Position.Y - scale, doubleScale, doubleScale);
                 }
             }
