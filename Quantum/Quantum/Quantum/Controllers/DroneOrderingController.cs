@@ -9,7 +9,10 @@ namespace Quantum.Quantum.Controllers
 {
     class DroneOrderingController: GameController
     {
-        private double accumulatedTime = 0;
+        private double orderAccumulatedTime = 0;
+        private double recruiteAccumulatedTime = 0;
+
+
         public void execute(GameEvent gameEvent)
         {
             QuantumModel model = gameEvent.model;
@@ -23,13 +26,61 @@ namespace Quantum.Quantum.Controllers
             }
             else
             {
-                accumulatedTime = 0;
+                orderAccumulatedTime = 0;
             }
 
-            if(gameEvent.isButtonPressed(Keys.Q)) {
-                
+            if(gameEvent.isButtonPressed(Keys.Q)) 
+            {
+                recruiteDrones(gameEvent, model, general, cloudRadius);
+            }
+            else
+            {
+                recruiteAccumulatedTime = 0;
             }
                
+        }
+
+        private Drone findDrone(Outpost outpost, General general, double cloudRadius) {
+
+            int outpostId = outpost.id;
+
+            foreach(Drone drone in general.Drones) {
+                if (drone.Order != DroneOrder.MoveToOutpost) continue;
+                if (drone.TargetOutpost != outpostId) continue;
+
+                if (Vector.Subtract(outpost.Position, drone.Position).Length < cloudRadius * 1.3)
+                {
+                    return drone;
+                }
+            }
+
+            return null;
+        }
+
+        public void recruiteDrones(GameEvent gameEvent, QuantumModel model, General general, double cloudRadius)
+        {
+
+            double milsForDrone = model.milsPerDronToRecruite;
+
+            int amountOfDroneToRecruite = (int)((recruiteAccumulatedTime + gameEvent.deltaTime) / milsForDrone);
+            recruiteAccumulatedTime += gameEvent.deltaTime - amountOfDroneToRecruite * milsForDrone;
+
+            if (amountOfDroneToRecruite <= 0) return;
+
+            Outpost outpost = model.findOutpostByPosition(general.Position);
+
+            if (outpost == null) return;
+
+            while (amountOfDroneToRecruite > 0)
+            {
+
+                Drone drone = findDrone(outpost, general, cloudRadius);
+                if (drone == null) return;
+
+                drone.Order = DroneOrder.MoveToGeneral;
+
+                amountOfDroneToRecruite--;
+            }
         }
 
         public void giveOrderToDrones(GameEvent gameEvent, QuantumModel model, General general, Vector targetPosition, double cloudRadius)
@@ -38,8 +89,8 @@ namespace Quantum.Quantum.Controllers
 
             double milsForDrone = distanceToPoint.Length * distanceToPoint.Length * distanceToPoint.Length / model.milsOrderFactor;
 
-            int amountOfDroneToSend = (int)((accumulatedTime + gameEvent.deltaTime) / milsForDrone);
-            accumulatedTime += gameEvent.deltaTime - amountOfDroneToSend*milsForDrone;
+            int amountOfDroneToSend = (int)((orderAccumulatedTime + gameEvent.deltaTime) / milsForDrone);
+            orderAccumulatedTime += gameEvent.deltaTime - amountOfDroneToSend * milsForDrone;
 
             Outpost outpost = model.findOutpostByPosition(targetPosition);
 
