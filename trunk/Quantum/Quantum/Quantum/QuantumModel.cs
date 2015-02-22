@@ -83,12 +83,12 @@ namespace Quantum.Quantum
 
     class Drone
     {
-
         public Drone()
         {
             Health = 3; //default value  
+            this.id = Guid.NewGuid().ToString();
         }
-
+        public readonly string id;
         public int   Health   { get; set; }
         public Vector Position { get; set; }
 
@@ -134,9 +134,9 @@ namespace Quantum.Quantum
     class Beam
     {
         public readonly int TimeToLive_Iterations = 10;
-        public Point position1;
-        public Point position2;
-        public Beam(Point position1, Point position2)
+        public Vector position1;
+        public Vector position2;
+        public Beam(Vector position1, Vector position2)
         {
             this.position1 = position1;
             this.position2 = position2;
