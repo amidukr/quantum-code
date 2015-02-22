@@ -65,8 +65,8 @@ namespace Quantum.Quantum
 
 
             createOutpost(model, new Vector(width/2, height/2));
-            createOutpost(model, new Vector(width - 500, 250));
-            createOutpost(model, new Vector(500,         height - 250));
+            createOutpost(model, new Vector(width - 250, 250));
+            createOutpost(model, new Vector(250,         height - 250));
 
 
 
