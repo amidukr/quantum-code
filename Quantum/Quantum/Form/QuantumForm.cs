@@ -66,5 +66,12 @@ namespace Quantum
         {
             game.playNext(e.Graphics, Width, Height);
         }
+
+        private void QuantumForm_Load(object sender, EventArgs e)
+        {
+            Image backgroungImage = Image.FromFile(@"Resources\Background.JPG");
+            Bitmap img = new Bitmap(backgroungImage, ClientSize.Width, ClientSize.Height);
+            BackgroundImage = img;
+        }
     }
 }
