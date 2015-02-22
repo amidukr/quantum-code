@@ -32,13 +32,13 @@ namespace Quantum.Quantum.Controllers
                     {
                         if (!dron1.Attacking)
                         {
-                            gameEvent.model.Beams.Add(new Beam(dron1.Position, dron2.Position));
+                            gameEvent.model.Beams.Add(new Beam(dron1.Position, dron2.Position, gen2.Team));
                             dron2.Health--;
                             dron1.Attacking = true;
                         }
                         if (!dron2.Attacking)
                         {
-                            gameEvent.model.Beams.Add(new Beam(dron1.Position, dron2.Position));
+                            gameEvent.model.Beams.Add(new Beam(dron1.Position, dron2.Position, gen1.Team));
                             dron1.Health--;
                             dron2.Attacking = true;
                         }
