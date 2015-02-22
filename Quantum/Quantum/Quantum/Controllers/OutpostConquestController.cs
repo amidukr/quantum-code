@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace Quantum.Quantum.Controllers
 {
@@ -26,23 +27,28 @@ namespace Quantum.Quantum.Controllers
             
 
             foreach(Outpost outpost in gameEvent.model.Outposts) {
-                List<General> generalsParticipators = new List<General>();
+                HashSet<General> generalsParticipators = new HashSet<General>();
 
                 foreach(General general in model.Generals) {
                     if(general.FindDroneCloseToOutpost(outpost, model.cloudRadius) != null) {
+                        generalsParticipators.Add(general);
+                    }
+
+                    if (Vector.Subtract(general.Position, outpost.Position).Length < model.cloudRadius)
+                    {
                         generalsParticipators.Add(general);
                     }
                 }
 
                 if (generalsParticipators.Count == 1)
                 {
-                    Team newTeam = generalsParticipators[0].Team;
+                    Team newTeam = generalsParticipators.First().Team;
                     if (outpost.Team != newTeam)
                     {
                         Console.WriteLine("Outpost was conquested by " + newTeam);
                     }
-                        
-                    outpost.Team = generalsParticipators[0].Team;
+
+                    outpost.Team = newTeam;
                 }
             }
         }
