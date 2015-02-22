@@ -67,8 +67,17 @@ namespace Quantum.Quantum.Controllers
 
             if (angle != -10)
             {
-                general.Velocity = new Vector(Math.Cos(angle) * gameEvent.model.speedConstant, Math.Sin(angle) * gameEvent.model.speedConstant);
+                
+                Vector newVelocity = new Vector(Math.Cos(angle) * gameEvent.model.speedConstant, 
+                                                Math.Sin(angle) * gameEvent.model.speedConstant);
+
+                
+
+                general.Velocity = Vector.Add(Vector.Multiply(0.75, general.Velocity), 
+                                              Vector.Multiply(0.25, newVelocity));
                 general.PrevSpeed = general.Velocity;
+                
+
             }
             else
             {
