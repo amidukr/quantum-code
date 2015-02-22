@@ -99,7 +99,7 @@ namespace Quantum.Quantum
         private void RotateImage(Image image, General general, GameEvent gameEvent)
         {
             Matrix mat = new Matrix();
-            double angle = Math.Atan2(general.Velocity.Y, general.Velocity.X);
+            double angle = Math.Atan2(general.PrevSpeed.Y, general.PrevSpeed.X);
             mat.RotateAt(90 + (float)(180 * angle / Math.PI), new PointF((float)general.Position.X, (float)general.Position.Y));
             mat.Translate(-16, -28);
             gameEvent.graphics.Transform = mat;

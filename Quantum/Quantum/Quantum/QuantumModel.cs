@@ -123,7 +123,7 @@ namespace Quantum.Quantum
         public int Health { get; set; }
         public readonly List<Drone> Drones = new List<Drone>();
 
-        public Vector Speed { get; set;}
+        public Vector PrevSpeed { get; set;}
 
         public Drone FindDroneCloseToOutpost(Outpost outpost, double radius) {
             Vector outpostPosition = outpost.Position;

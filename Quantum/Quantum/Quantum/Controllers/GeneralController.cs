@@ -31,7 +31,6 @@ namespace Quantum.Quantum.Controllers
             General general = model.FindGeneralByTeam(team);
 
             double angle = -10;
-            Vector prev = general.Velocity;
             
             if (gameEvent.isButtonPressed(upButton) && gameEvent.isButtonPressed(rightButton))
             {
@@ -65,11 +64,16 @@ namespace Quantum.Quantum.Controllers
             {
                 angle = -Math.PI;
             }
-            
+
             if (angle != -10)
+            {
                 general.Velocity = new Vector(Math.Cos(angle) * gameEvent.model.speedConstant, Math.Sin(angle) * gameEvent.model.speedConstant);
+                general.PrevSpeed = general.Velocity;
+            }
             else
+            {
                 general.Velocity = new Vector(0, 0);
+            }
 
 
             general.Position = new Vector(general.Position.X + (general.Velocity.X * gameEvent.deltaTime),
