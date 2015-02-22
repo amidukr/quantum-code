@@ -28,8 +28,6 @@ namespace Quantum.Quantum
         public readonly double dronSpeedConstant = 1.8;
         public readonly double outpostConquestTime = 1000;
 
-        public General currentGeneral          = new General(Team.green);
-
         public readonly List<General> Generals = new List<General>();
         public readonly List<Outpost> Outposts = new List<Outpost>();
 
@@ -58,6 +56,16 @@ namespace Quantum.Quantum
         public int generateID()
         {
             return nextUniqueId++;
+        }
+
+        internal General FindGeneralByTeam(Team team)
+        {
+            foreach (General general in Generals)
+            {
+                if (general.Team == team) return general;
+            }
+
+            return null;
         }
     }
 
@@ -107,7 +115,6 @@ namespace Quantum.Quantum
         public int Health { get; set; }
         public readonly List<Drone> Drones = new List<Drone>();
 
-        public Quantum.Team CurrentTeam { get; set; }
         public Vector Speed { get; set;}
 
         public Drone FindDroneCloseToOutpost(Outpost outpost, double radius) {

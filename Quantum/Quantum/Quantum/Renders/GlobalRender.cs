@@ -27,16 +27,25 @@ namespace Quantum.Quantum
             gameEvent.graphics.DrawImage(background, 0, 0, (float)gameEvent.width, (float)gameEvent.height);
 
             drawOutposts(gameEvent);
-            drawGeneral(gameEvent);
-            drawDrone(gameEvent);
+
+            List<General> generals = gameEvent.model.Generals;
+
+            foreach (General general in generals)
+            {
+                drawGeneral(gameEvent, general);
+            }
+
+            foreach (General general in generals)
+            {
+                drawDrone(gameEvent, general);
+            }
         }
 
-        private void drawGeneral(GameEvent gameEvent)
+        private void drawGeneral(GameEvent gameEvent, General general)
         {
-            General general = gameEvent.model.currentGeneral;
             Image generalImage;
 
-            if (general.CurrentTeam == Team.green)
+            if (general.Team == Team.green)
                 generalImage = greenGeneralImage;
             else
                 generalImage = blueGeneralImage;
@@ -56,13 +65,13 @@ namespace Quantum.Quantum
                     gameEvent.graphics.DrawImage(greenOutpostImage, (int)outpost.Position.X - 50, (int)outpost.Position.Y - 50, 100, 100);
             }
         }
-        public void drawDrone(GameEvent gameEvent)
+        public void drawDrone(GameEvent gameEvent, General general)
         {
-            List<Drone> drones = gameEvent.model.currentGeneral.Drones;
+            List<Drone> drones = general.Drones;
             Image droneImage;
             if (drones.Count != 0)
             {
-                if (gameEvent.model.currentGeneral.CurrentTeam == Team.green)
+                if (general.Team == Team.green)
                     droneImage = greenDroneImage;
                 else
                     droneImage = blueDroneImage;
