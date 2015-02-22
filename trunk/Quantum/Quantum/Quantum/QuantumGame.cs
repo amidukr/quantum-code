@@ -68,6 +68,8 @@ namespace Quantum.Quantum
 
         private QuantumMapBuilder mapBuilder = new QuantumMapBuilder();
 
+        public List<Beam> beamList = new List<Beam>();
+
         private void initialize(double width, double height)
         {
 
