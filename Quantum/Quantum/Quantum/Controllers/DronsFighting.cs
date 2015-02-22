@@ -11,7 +11,7 @@ namespace Quantum.Quantum.Controllers
         public void execute(GameEvent gameEvent)
         {
             General gen1 = gameEvent.model.FindGeneralByTeam(Team.blue);
-            General gen2 = gameEvent.model.FindGeneralByTeam(Team.blue);
+            General gen2 = gameEvent.model.FindGeneralByTeam(Team.green);
 
             double minFightDistance = 150;
 
@@ -32,20 +32,25 @@ namespace Quantum.Quantum.Controllers
                     {
                         if (!dron1.Attacking)
                         {
-                            beamList.Add(new Beam(dron1.Position, dron2.Position));
+                            gameEvent.model.Beams.Add(new Beam(dron1.Position, dron2.Position));
                             dron2.Health--;
                             dron1.Attacking = true;
                         }
                         if (!dron2.Attacking)
                         {
-                            beamList.Add(new Beam(dron1.Position, dron2.Position));
+                            gameEvent.model.Beams.Add(new Beam(dron1.Position, dron2.Position));
                             dron1.Health--;
                             dron2.Attacking = true;
                         }
                     }
                 }
             }
-            gameEvent.game.beamList = beamList.Distinct().ToList();            
+
+            foreach (General general in gameEvent.model.Generals)
+            {
+                general.Drones.RemoveAll(p => p.Health <= 0);
+            }
+            
         }
     }
 }

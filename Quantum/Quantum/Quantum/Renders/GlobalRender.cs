@@ -20,6 +20,14 @@ namespace Quantum.Quantum
 
         private Pen grayPen = new Pen(Color.Gray, 3);
 
+        private Pen whitePen = new Pen(Color.White, 3);
+
+        private Pen greenWidePen      = new Pen(Color.Red, 5);
+        private Pen greenWideHelpPen  = new Pen(Color.DarkRed, 7);
+
+        private Pen blueWidePen       = new Pen(Color.Red, 5);
+        private Pen blueWideHelpPen   = new Pen(Color.DarkRed, 7);
+
         public void execute(GameEvent gameEvent)
         {
             if (gameEvent.graphics == null) return;
@@ -39,6 +47,8 @@ namespace Quantum.Quantum
             {
                 drawDrone(gameEvent, general);
             }
+
+            drawBeam(gameEvent);
         }
 
         private void drawGeneral(GameEvent gameEvent, General general)
@@ -95,31 +105,36 @@ namespace Quantum.Quantum
             gameEvent.graphics.Transform = new Matrix();
         }
 
-       /* private void drawBeam(GameEvent gameEvent) 
+        private void drawBeam(GameEvent gameEvent) 
         {
-            List<Beams> drones = gameEvent.model.currentGeneral.Beams;
-            Pen whitePen = new Pen(Color.White, 3);
-            Pen mainPen, helpPen;
-            if (drones.Count != 0)
+            List<Beam> beams = gameEvent.model.Beams;
+
+            foreach (Beam beam in gameEvent.model.Beams)
             {
-                if (gameEvent.model.currentGeneral.CurrentTeam == Team.green)
+
+                Pen whitePen = this.whitePen;
+
+                Pen mainPen = null;
+                Pen helpPen = null;
+
+                if (beam.team == Team.blue)
                 {
-                    mainPen = new Pen(Color.Green, 5);
-                    helpPen = new Pen(Color.DarkGreen, 7);
+                    mainPen  = this.blueWidePen;
+                    helpPen  = this.blueWideHelpPen;
                 }
-                else
+                else if (beam.team == Team.green)
                 {
-                    mainPen = new Pen(Color.Blue, 5);
-                    helpPen = new Pen(Color.DarkBlue, 7);
+                    mainPen = this.greenWidePen;
+                    helpPen = this.greenWideHelpPen;
                 }
-                foreach (Drone drone in drones)
-                {
-                    gameEvent.graphics.DrawLine(helpPen, (int)drone.Position.X - 8, (int)drone.Position.Y - 8, 16, 16);
-                    gameEvent.graphics.DrawLine(mainPen, (int)drone.Position.X - 8, (int)drone.Position.Y - 8, 16, 16);
-                    gameEvent.graphics.DrawLine(whitePen, (int)drone.Position.X - 8, (int)drone.Position.Y - 8, 16, 16);
-                }
+
+                gameEvent.graphics.DrawLine(helpPen, (float)beam.position1.X, (float)beam.position1.Y, (float)beam.position2.X, (float)beam.position2.Y);
+                gameEvent.graphics.DrawLine(mainPen, (float)beam.position1.X, (float)beam.position1.Y, (float)beam.position2.X, (float)beam.position2.Y);
+                gameEvent.graphics.DrawLine(whitePen, (float)beam.position1.X, (float)beam.position1.Y, (float)beam.position2.X, (float)beam.position2.Y);
             }
-        }*/
+
+            gameEvent.model.Beams.Clear();
+        }
 
     }
 }

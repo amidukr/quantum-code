@@ -68,7 +68,7 @@ namespace Quantum.Quantum
 
         private QuantumMapBuilder mapBuilder = new QuantumMapBuilder();
 
-        public List<Beam> beamList = new List<Beam>();
+        
 
         private void initialize(double width, double height)
         {
@@ -81,6 +81,7 @@ namespace Quantum.Quantum
             controllers.Add(new DroneOrderingController(Team.blue, Keys.ShiftKey, MouseButtons.Right));
             controllers.Add(new DroneController());
             controllers.Add(new DrownRespawnerController());
+            controllers.Add(new DronsFighting());
             controllers.Add(new GlobalRender());
 
             mapBuilder.initializeMap(this, width, height);
