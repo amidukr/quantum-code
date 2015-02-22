@@ -56,8 +56,8 @@ namespace Quantum.Quantum
         {
             QuantumModel model = game.model;
 
-            General greenGeneral = createGeneral(model, new Vector(50,         height / 2 - 50), Team.green);
-            General blueGeneral  = createGeneral(model, new Vector(width - 50, height / 2 - 50), Team.blue);
+            General greenGeneral = createGeneral(model, new Vector(50,         height / 2), Team.green);
+            General blueGeneral  = createGeneral(model, new Vector(width - 50, height / 2), Team.blue);
 
 
             Outpost outpostGreen = createOutpost(model, new Vector(700, 135));
