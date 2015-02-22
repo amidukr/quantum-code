@@ -33,6 +33,7 @@ namespace Quantum.Quantum
 
         public readonly List<General> Generals = new List<General>();
         public readonly List<Outpost> Outposts = new List<Outpost>();
+        public readonly List<Beam> Beams = new List<Beam>();
 
         public Outpost findOutpostById(int id)
         {
@@ -143,6 +144,8 @@ namespace Quantum.Quantum
         public readonly int TimeToLive_Iterations = 10;
         public Vector position1;
         public Vector position2;
+        public Team   team;
+
         public Beam(Vector position1, Vector position2)
         {
             this.position1 = position1;
