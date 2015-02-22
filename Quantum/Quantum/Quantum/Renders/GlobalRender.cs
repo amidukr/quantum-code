@@ -20,13 +20,15 @@ namespace Quantum.Quantum
 
         private Pen grayPen = new Pen(Color.Gray, 3);
 
-        private Pen whitePen = new Pen(Color.White, 3);
+        private Pen whitePen = new Pen(Color.White, 1);
 
-        private Pen greenWidePen      = new Pen(Color.Red, 5);
-        private Pen greenWideHelpPen  = new Pen(Color.DarkRed, 7);
+        private Pen greenWidePen      = new Pen(Color.Yellow, 3);
+        private Pen greenWideHelpPen  = new Pen(Color.DarkOrange, 5);
 
-        private Pen blueWidePen       = new Pen(Color.Red, 5);
-        private Pen blueWideHelpPen   = new Pen(Color.DarkRed, 7);
+        private Pen blueWidePen       = new Pen(Color.Red, 3);
+        private Pen blueWideHelpPen   = new Pen(Color.DarkRed, 5);
+        private float floaXShift=0;
+        private float floaYShift = 0;
 
         public void execute(GameEvent gameEvent)
         {
@@ -121,16 +123,18 @@ namespace Quantum.Quantum
                 {
                     mainPen  = this.blueWidePen;
                     helpPen  = this.blueWideHelpPen;
+                    this.floaXShift = -2;
                 }
                 else if (beam.team == Team.green)
                 {
                     mainPen = this.greenWidePen;
                     helpPen = this.greenWideHelpPen;
+                    this.floaXShift = 2;
                 }
 
-                gameEvent.graphics.DrawLine(helpPen, (float)beam.position1.X, (float)beam.position1.Y, (float)beam.position2.X, (float)beam.position2.Y);
-                gameEvent.graphics.DrawLine(mainPen, (float)beam.position1.X, (float)beam.position1.Y, (float)beam.position2.X, (float)beam.position2.Y);
-                gameEvent.graphics.DrawLine(whitePen, (float)beam.position1.X, (float)beam.position1.Y, (float)beam.position2.X, (float)beam.position2.Y);
+                gameEvent.graphics.DrawLine(helpPen, (float)beam.position1.X + floaXShift, (float)beam.position1.Y, (float)beam.position2.X, (float)beam.position2.Y);
+                gameEvent.graphics.DrawLine(mainPen, (float)beam.position1.X + floaXShift, (float)beam.position1.Y, (float)beam.position2.X, (float)beam.position2.Y);
+                gameEvent.graphics.DrawLine(whitePen, (float)beam.position1.X + floaXShift, (float)beam.position1.Y, (float)beam.position2.X, (float)beam.position2.Y);
             }
 
             gameEvent.model.Beams.Clear();
