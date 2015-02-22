@@ -89,8 +89,9 @@ namespace Quantum.Quantum
     {
         public Drone()
         {
-            Health = 3; //default value  
+            this.Health = 3; //default value  
             this.id = Guid.NewGuid().ToString();
+            this.Attacking = false;
         }
         public readonly string id;
         public int   Health   { get; set; }
@@ -99,6 +100,8 @@ namespace Quantum.Quantum
         public Vector TargetPosition { get; set; }
         public int        TargetOutpost {get; set;}
         public DroneOrder Order{ get; set; }
+
+        public bool Attacking { get; set; } 
 
     }
 
