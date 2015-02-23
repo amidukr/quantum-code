@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Quantum.Quantum.Model;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -31,9 +32,17 @@ namespace Quantum.Quantum
         public readonly double dronSpeedConstant = 1.8;
         public readonly double outpostConquestTime = 300;
 
+        public readonly double mapWidth, mapHeight;
         public readonly List<General> Generals = new List<General>();
         public readonly List<Outpost> Outposts = new List<Outpost>();
         public readonly List<Beam> Beams = new List<Beam>();
+        public Team Winner = Team.neutral;
+
+        public QuantumModel(double mapWidth, double mapHeight)
+        {
+            this.mapWidth  = mapWidth;
+            this.mapHeight = mapHeight;
+        }
 
         public Outpost findOutpostById(int id)
         {
@@ -73,36 +82,9 @@ namespace Quantum.Quantum
         }
     }
 
-    class Outpost
-    {   
-        public Outpost  ()
-        {
-            this.Team = Team.neutral;
-        }
+    
 
-        public int id { get; set; }
-        public Vector Position { get; set; }
-        public Team Team { get; set; }
-        public double respawnTimerAccumulator { get; set; }
-    }
-
-    class Drone
-    {
-        public Drone()
-        {
-            this.Health = 3; //default value  
-            this.id = Guid.NewGuid().ToString();
-        }
-
-        public readonly string id;
-        public Team Team;
-        public int   Health   { get; set; }
-        public Vector Position { get; set; }
-
-        public Vector TargetPosition { get; set; }
-        public int        TargetOutpost {get; set;}
-        public DroneOrder Order{ get; set; }
-    }
+    
 
     class General
     {
@@ -141,20 +123,6 @@ namespace Quantum.Quantum
             }
 
             return null;
-        }
-    }
-    class Beam
-    {
-        public readonly int TimeToLive_Iterations = 10;
-        public Vector position1;
-        public Vector position2;
-        public Team   team;
-
-        public Beam(Vector position1, Vector position2, Team team)
-        {
-            this.position1 = position1;
-            this.position2 = position2;
-            this.team = team;
         }
     }
 }

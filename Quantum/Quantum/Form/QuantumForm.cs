@@ -10,34 +10,71 @@ using System.Windows.Forms;
 using Quantum.Quantum;
 using System.Windows;
 using Quantum.Quantum.Utils;
+using Quantum.Quantum.Factory;
 
 namespace Quantum
 {
     public partial class QuantumForm : Form
     {
+        private readonly SinglePlayerGameFactory singlePlayerFactory = new SinglePlayerGameFactory();
+        private readonly MultiPlayerGameFactory  multiPlayerFactory  = new MultiPlayerGameFactory();
+
+        private int ScreenWidth  = Screen.PrimaryScreen.WorkingArea.Width;
+        private int ScreenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+        
+
         private QuantumGame game;
         private BufferedGraphicsContext context;
         private BufferedGraphics grafx;
-        private readonly int canvasWidth, canvasHeight;
 
         public QuantumForm()
         {
             InitializeComponent();
 
-            canvasWidth  = 1024;
-            canvasHeight = 1024;
-
             context = BufferedGraphicsManager.Current;
             grafx = context.Allocate(this.CreateGraphics(),
                 new Rectangle(0, 0, this.Width, this.Height));
 
-            game = new QuantumGame();
-            game.create(7777);
+            ScreenWidth  = this.Width;
+            ScreenHeight = this.Height;
+
+            restart();
+        }
+
+        private void restart() {
+            game = singlePlayerFactory.create(ScreenWidth, ScreenHeight);
+            this.ActiveControl = null;
+        }
+
+        private void onRestart(object sender, EventArgs e)
+        {
+            restart();
         }
 
         private void onTimer(object sender, EventArgs e)
         {
             this.Refresh();
+        }
+
+
+        private void onKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 'h')
+            {
+                multiPlayerFactory.listen(7777);
+                MessageBox.Show("Waiting for second player.\nPlease. press ok to proceeded");
+
+            }
+
+            if (e.KeyChar == 'r')
+            {
+                DialogResult result = MessageBox.Show("Are you sure want to restart game?", "Game restart", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.OK)
+                {
+                    restart();
+                }
+
+            }
         }
 
         private void QuantumForm_Paint(object sender, PaintEventArgs e)
@@ -50,6 +87,7 @@ namespace Quantum
 
         protected override void OnPaintBackground(PaintEventArgs pevent)
         {
+            //Disable background paint
         }
 
         private void onKeyDown(object sender, KeyEventArgs e)
@@ -77,12 +115,6 @@ namespace Quantum
         private void onMouseMove(object sender, MouseEventArgs e)
         {
             game.mousePosition = new Vector(e.X, e.Y);
-        }
-
-        private void onRestart(object sender, EventArgs e)
-        {
-            game = new QuantumGame();
-            this.ActiveControl = null;
         }
     }
 }

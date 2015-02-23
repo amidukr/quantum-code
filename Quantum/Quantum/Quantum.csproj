@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Form\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quantum\Controllers\CheckWinCondition.cs" />
     <Compile Include="Quantum\Controllers\DroneController.cs" />
     <Compile Include="Quantum\Controllers\DroneOrderingController.cs" />
     <Compile Include="Quantum\Controllers\DrownRespawnerController.cs" />
@@ -65,12 +66,20 @@
     <Compile Include="Quantum\Controllers\GeneralController.cs" />
     <Compile Include="Quantum\Controllers\NetworkSync.cs" />
     <Compile Include="Quantum\Controllers\OutpostConquestController.cs" />
+    <Compile Include="Quantum\Factory\MultiPlayerGameFactory.cs" />
+    <Compile Include="Quantum\Factory\SinglePlayerGameFactory.cs" />
+    <Compile Include="Quantum\GameEvent.cs" />
     <Compile Include="Quantum\GameNetwork.cs" />
+    <Compile Include="Quantum\Model\Beam.cs" />
+    <Compile Include="Quantum\Model\Drone.cs" />
+    <Compile Include="Quantum\Model\General.cs" />
+    <Compile Include="Quantum\Model\Outpost.cs" />
     <Compile Include="Quantum\QuantumMapBuilder.cs" />
     <Compile Include="Quantum\QuantumGame.cs" />
     <Compile Include="Quantum\QuantumModel.cs" />
-    <Compile Include="Quantum\Renders\BlendFilter.cs" />
+    <Compile Include="Quantum\Renders\MotionBlurFilter.cs" />
     <Compile Include="Quantum\Renders\GlobalRender.cs" />
+    <Compile Include="Quantum\Renders\WinBanner.cs" />
     <Compile Include="Quantum\Utils\DeltaTimeCounter.cs" />
     <Compile Include="Quantum\Utils\DroneCache.cs" />
     <Compile Include="Quantum\Utils\GamePrints.cs" />

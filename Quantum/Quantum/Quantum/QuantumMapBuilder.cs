@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Quantum.Quantum.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,9 +53,9 @@ namespace Quantum.Quantum
             }   
         }
 
-        public void initializeMap(QuantumGame game, double width, double height)
+        public QuantumModel initializeMap(double width, double height)
         {
-            QuantumModel model = game.model;
+            QuantumModel model = new QuantumModel(width, height);
 
             General greenGeneral = createGeneral(model, new Vector(50,         height / 2), Team.green);
             General blueGeneral  = createGeneral(model, new Vector(width - 50, height / 2), Team.blue);
@@ -82,6 +83,8 @@ namespace Quantum.Quantum
 
             fillGeneralWithDrones(model, greenGeneral, new Vector(0, 0), 300);
             fillGeneralWithDrones(model, blueGeneral, new Vector(width, height), 300);
+
+            return model;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Quantum.Quantum.Utils;
+﻿using Quantum.Quantum.Model;
+using Quantum.Quantum.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Quantum.Quantum.Controllers
         public void execute(GameEvent gameEvent)
         {
             QuantumModel model = gameEvent.model;
-            GeneralsDronesCache dronesCached = gameEvent.largeCache;
+            GeneralsDronesCache dronesCached = gameEvent.game.largeCache;
 
             double maxFightDistance = 150;
 

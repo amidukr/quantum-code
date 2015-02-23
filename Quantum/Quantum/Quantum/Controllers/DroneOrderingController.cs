@@ -1,4 +1,5 @@
-﻿using Quantum.Quantum.Utils;
+﻿using Quantum.Quantum.Model;
+using Quantum.Quantum.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
