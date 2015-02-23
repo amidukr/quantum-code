@@ -69,6 +69,7 @@
     <Compile Include="Quantum\QuantumMapBuilder.cs" />
     <Compile Include="Quantum\QuantumGame.cs" />
     <Compile Include="Quantum\QuantumModel.cs" />
+    <Compile Include="Quantum\Renders\BlendFilter.cs" />
     <Compile Include="Quantum\Renders\GlobalRender.cs" />
     <Compile Include="Quantum\Utils\DeltaTimeCounter.cs" />
     <Compile Include="Quantum\Utils\DroneCache.cs" />

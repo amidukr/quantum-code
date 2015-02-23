@@ -48,6 +48,10 @@ namespace Quantum
             restartButton.Enabled = restartButton.Visible;
         }
 
+        protected override void OnPaintBackground(PaintEventArgs pevent)
+        {
+        }
+
         private void onKeyDown(object sender, KeyEventArgs e)
         {
             game.changeInputState(e.KeyCode, true);

@@ -9,6 +9,9 @@ using Quantum.Quantum.Controllers;
 using Quantum.Quantum;
 using System.Windows;
 using Quantum.Quantum.Utils;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using Quantum.Quantum.Renders;
 
 namespace Quantum.Quantum
 {
@@ -67,6 +70,8 @@ namespace Quantum.Quantum
         private readonly Dictionary<object, bool> keyTable = new Dictionary<object, bool>();
         public Vector mousePosition {get; set;}
         public readonly QuantumModel model = new QuantumModel();
+        public readonly BlendFilter blendFilter = new BlendFilter();
+
         
         public readonly GeneralsDronesCache smallCache = new GeneralsDronesCache(20);
         public readonly GeneralsDronesCache largeCache = new GeneralsDronesCache(200);
@@ -87,9 +92,13 @@ namespace Quantum.Quantum
         private Image greenGameOver = Image.FromFile(@"Resources\green-game-over.png");
         private Image blueGameOver  = Image.FromFile(@"Resources\blue-game-over.png");
 
+        private Image mainImage;
+        private Image blurImage;
+
         private void initialize(double width, double height)
         {
-
+            mainImage = new Bitmap((int)width, (int)height);
+            blurImage = new Bitmap((int)width, (int)height);
 
             controllers.Add(new OutpostConquestController());
             controllers.Add(new GeneralController(Keys.W,  Keys.S,    Keys.A,    Keys.D,     Team.green));
@@ -168,10 +177,10 @@ namespace Quantum.Quantum
                 smallCache.cacheModel(model);
                 largeCache.cacheModel(model);
                 performanceCounter.PrintAndMeasureDelta("Cache drones");
-                
-                
 
-                GameEvent gameEvent = new GameEvent(this, deltaTime / 100000.0, g, winner, width, height);
+
+                Graphics mainG = Graphics.FromImage(mainImage);
+                GameEvent gameEvent = new GameEvent(this, deltaTime / 100000.0, mainG, winner, width, height);
 
                 foreach (GameController controller in controllers)
                 {
@@ -179,7 +188,7 @@ namespace Quantum.Quantum
                     performanceCounter.PrintAndMeasureDelta(controller.ToString());
                 }
 
-
+                blendFilter.Draw(g, mainImage, blurImage);
 
                 if (winner != Team.neutral)
                 {
@@ -188,7 +197,7 @@ namespace Quantum.Quantum
 
                     if (gameEvent.graphics != null)
                     {
-                        gameEvent.graphics.DrawImage(gameOverImage, (int)(width - gameOverImage.Width) / 2, (int)(height - gameOverImage.Height) / 2);
+                        g.DrawImage(gameOverImage, (int)(width - gameOverImage.Width) / 2, (int)(height - gameOverImage.Height) / 2);
                     }
 
                     return true;
@@ -205,7 +214,10 @@ namespace Quantum.Quantum
             return false;
         }
 
+        private void blendDraw()
+        {
 
+        }
 
         public Boolean isButtonPressed(Object key)
         {   
