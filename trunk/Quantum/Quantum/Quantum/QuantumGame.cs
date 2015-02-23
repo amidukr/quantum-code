@@ -53,8 +53,8 @@ namespace Quantum.Quantum
 
         public void start(QuantumModel model, int screenWidth, int screenHeight)
         {
-            motionBlurFilter = new MotionBlurFilter(screenWidth, screenHeight);
-            mainImage = new Bitmap(screenWidth, screenHeight);
+            motionBlurFilter = new MotionBlurFilter((int)model.mapWidth, (int)model.mapHeight);
+            mainImage = new Bitmap((int)model.mapWidth, (int)model.mapHeight);
 
             controllers.Add(new CheckWinCondition());
             controllers.Add(new GeneralController(Keys.W,  Keys.S,    Keys.A,    Keys.D,     Team.green));

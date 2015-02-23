@@ -34,7 +34,7 @@ namespace Quantum.Quantum.Renders
             blurG.CompositingMode = CompositingMode.SourceOver;
 
             blurG.DrawImage(mainImage,
-                        new Rectangle(0, 0, gameEvent.screenWidth, gameEvent.screenHeight),
+                        new Rectangle(0, 0, mainImage.Width, mainImage.Height),
                         0,
                         0,
                         mainImage.Width,
@@ -42,7 +42,7 @@ namespace Quantum.Quantum.Renders
                         GraphicsUnit.Pixel,
                         imageAttributes);
 
-            userOutput.DrawImage(mainImage, 0, 0, gameEvent.screenWidth, gameEvent.screenHeight);
+            userOutput.DrawImage(blurImage, 0, 0, gameEvent.screenWidth, gameEvent.screenHeight);
         }
     }
 }

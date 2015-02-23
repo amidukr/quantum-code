@@ -14,11 +14,13 @@ using Quantum.Quantum.Factory;
 
 namespace Quantum
 {
-    public partial class QuantumForm : Form
+    public partial class QuantumForm : System.Windows.Forms.Form
     {
         private readonly SinglePlayerGameFactory singlePlayerFactory = new SinglePlayerGameFactory();
         private readonly ServerGameFactory serverGameFactory = new ServerGameFactory();
         private readonly ClientGameFactory clientGameFactory = new ClientGameFactory();
+
+        private GameFactory gameFactory = new SinglePlayerGameFactory();
 
         private int ScreenWidth  = Screen.PrimaryScreen.WorkingArea.Width;
         private int ScreenHeight = Screen.PrimaryScreen.WorkingArea.Height;
@@ -43,8 +45,12 @@ namespace Quantum
         }
 
         private void restart() {
-            game = singlePlayerFactory.create(ScreenWidth, ScreenHeight);
-            this.ActiveControl = null;
+            gameFactory.create(ScreenWidth, ScreenHeight,  game =>
+            {
+                this.game = game;
+                this.ActiveControl = null;
+            });
+            
         }
 
         private void onRestart(object sender, EventArgs e)
@@ -64,6 +70,7 @@ namespace Quantum
             {
                 serverGameFactory.Listen(Width, Height, newGame =>
                 {
+                    this.gameFactory = serverGameFactory;
                     this.game = newGame;
                 });
                 MessageBox.Show("Waiting for second player.\nPlease. press ok to proceeded");
@@ -72,12 +79,17 @@ namespace Quantum
 
             if (e.KeyChar == 'j')
             {
-                clientGameFactory.Join(Width, Height, "127.0.0.1", newGame =>
+                JoinWindow joinWindow = new JoinWindow();
+
+                joinWindow.ShowDialog();
+
+                String address = joinWindow.HostAddress;
+
+                clientGameFactory.Join(Width, Height, address, newGame =>
                 {
+                    this.gameFactory = clientGameFactory;
                     this.game = newGame;
                 });
-                MessageBox.Show("Waiting for second player.\nPlease. press ok to proceeded");
-
             }
 
             if (e.KeyChar == 'r')
