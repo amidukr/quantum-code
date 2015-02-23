@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Quantum.Quantum.Controllers;
 using Quantum.Quantum;
 using System.Windows;
+using Quantum.Quantum.Utils;
 
 namespace Quantum.Quantum
 {
@@ -26,17 +27,22 @@ namespace Quantum.Quantum
         public readonly Vector mousePosition;
         public readonly double width, height;
         public readonly Team winner;
+        public readonly GeneralsDronesCache dronesCache;
 
         public GameEvent(QuantumGame game, double deltaTime, Graphics graphics, Team winner, double width, double height)
         {
             this.game = game;
             this.deltaTime = deltaTime;
             this.graphics = graphics;
-            this.model = game.model;
-            this.mousePosition = game.mousePosition;
             this.width = width;
             this.height = height;
             this.winner = winner;
+
+
+            this.model         = game.model;
+            this.mousePosition = game.mousePosition;
+            this.dronesCache   = game.dronesCache;
+            
         }
 
         public Boolean isButtonPressed(Keys key)
@@ -60,8 +66,9 @@ namespace Quantum.Quantum
         private readonly Dictionary<object, bool> keyTable = new Dictionary<object, bool>();
         public Vector mousePosition {get; set;}
         public readonly QuantumModel model = new QuantumModel();
+        public readonly GeneralsDronesCache dronesCache = new GeneralsDronesCache(50);
 
-        private long lastExecution;
+        private DeltaTimeCounter deltaTimeCounter;
         private bool firstExecution = true;
 
 
@@ -120,41 +127,61 @@ namespace Quantum.Quantum
 
         public bool playNext(Graphics g, double width, double height)
         {
-            long currentTime = System.DateTime.Now.Ticks;
-            long deltaTime   = currentTime - lastExecution;
-            lastExecution = currentTime;
-
-            if (firstExecution)
+            try
             {
-                initialize(width, height);
-                firstExecution = false;
-                return false;
-            }
+                DeltaTimeCounter performanceCounter = new DeltaTimeCounter();
 
-
-
-            Team winner = checkWinCondition();
-
-            GameEvent gameEvent = new GameEvent(this, deltaTime / 100000.0, g, winner, width, height);
-
-            foreach (GameController controller in controllers)
-            {
-                controller.execute(gameEvent);
-            }
-
-
-
-            if (winner != Team.neutral)
-            {
-                Image gameOverImage = null;
-                gameOverImage = (winner == Team.blue) ? greenGameOver : blueGameOver;
-
-                if (gameEvent.graphics != null)
+                if (firstExecution)
                 {
-                    gameEvent.graphics.DrawImage(gameOverImage, (int)(width - gameOverImage.Width) / 2, (int)(height - gameOverImage.Height) / 2);
+                    deltaTimeCounter = new DeltaTimeCounter();
+                    initialize(width, height);
+                    firstExecution = false;
+                    return false;
                 }
 
-                return true;
+                GamePrints.gameIteration++;
+
+                GamePrints.NextFrame();
+                long deltaTime = deltaTimeCounter.PrintAndMeasureDelta("Seconds per frame");
+
+                Team winner = checkWinCondition();
+
+                performanceCounter.PrintAndMeasureDelta("Check win condition");
+
+                dronesCache.cacheModel(model);
+                performanceCounter.PrintAndMeasureDelta("Cached drones");
+
+                performanceCounter.PrintAndMeasureDelta("Cache drones");
+
+                GameEvent gameEvent = new GameEvent(this, deltaTime / 100000.0, g, winner, width, height);
+
+                foreach (GameController controller in controllers)
+                {
+                    controller.execute(gameEvent);
+                    performanceCounter.PrintAndMeasureDelta(controller.ToString());
+                }
+
+
+
+                if (winner != Team.neutral)
+                {
+                    Image gameOverImage = null;
+                    gameOverImage = (winner == Team.blue) ? greenGameOver : blueGameOver;
+
+                    if (gameEvent.graphics != null)
+                    {
+                        gameEvent.graphics.DrawImage(gameOverImage, (int)(width - gameOverImage.Width) / 2, (int)(height - gameOverImage.Height) / 2);
+                    }
+
+                    return true;
+                }
+
+                performanceCounter.PrintAndMeasureDelta("Done in");
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
             }
 
             return false;
@@ -169,6 +196,11 @@ namespace Quantum.Quantum
 
         public void changeInputState(Object key, Boolean pressed) {
             keyTable[key] = pressed;
+        }
+
+        internal void create(int port)
+        {
+            //throw new NotImplementedException();
         }
     }
 }

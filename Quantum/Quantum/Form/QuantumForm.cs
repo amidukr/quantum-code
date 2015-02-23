@@ -14,7 +14,7 @@ namespace Quantum
 {
     public partial class QuantumForm : Form
     {
-        private QuantumGame game = new QuantumGame();
+        private QuantumGame game;
         private BufferedGraphicsContext context;
         private BufferedGraphics grafx;
         private readonly int canvasWidth, canvasHeight;
@@ -29,6 +29,9 @@ namespace Quantum
             context = BufferedGraphicsManager.Current;
             grafx = context.Allocate(this.CreateGraphics(),
                 new Rectangle(0, 0, this.Width, this.Height));
+
+            game = new QuantumGame();
+            game.create(7777);
         }
 
         private void onTimer(object sender, EventArgs e)

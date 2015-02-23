@@ -20,11 +20,7 @@ namespace Quantum.Quantum.Controllers
                 return;
             }
 
-            Console.WriteLine("Check outposts");
-
             usedTime -= model.outpostConquestTime;
-
-            
 
             foreach(Outpost outpost in gameEvent.model.Outposts) {
                 HashSet<General> generalsDroneParticipators = new HashSet<General>();

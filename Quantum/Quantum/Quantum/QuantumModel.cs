@@ -92,18 +92,16 @@ namespace Quantum.Quantum
         {
             this.Health = 3; //default value  
             this.id = Guid.NewGuid().ToString();
-            this.Attacking = false;
         }
+
         public readonly string id;
+        public Team Team;
         public int   Health   { get; set; }
         public Vector Position { get; set; }
 
         public Vector TargetPosition { get; set; }
         public int        TargetOutpost {get; set;}
         public DroneOrder Order{ get; set; }
-
-        public bool Attacking { get; set; } 
-
     }
 
     class General
@@ -124,6 +122,12 @@ namespace Quantum.Quantum
         public readonly List<Drone> Drones = new List<Drone>();
 
         public Vector PrevSpeed { get; set;}
+
+        public void AddDrone(Drone drone)
+        {
+            this.Drones.Add(drone);
+            drone.Team = this.Team;
+        }
 
         public Drone FindDroneCloseToOutpost(Outpost outpost, double radius) {
             Vector outpostPosition = outpost.Position;

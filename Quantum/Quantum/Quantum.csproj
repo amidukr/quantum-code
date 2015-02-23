@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,11 +63,16 @@
     <Compile Include="Quantum\Controllers\DrownRespawnerController.cs" />
     <Compile Include="Quantum\Controllers\DronsFighting.cs" />
     <Compile Include="Quantum\Controllers\GeneralController.cs" />
+    <Compile Include="Quantum\Controllers\NetworkSync.cs" />
     <Compile Include="Quantum\Controllers\OutpostConquestController.cs" />
+    <Compile Include="Quantum\GameNetwork.cs" />
     <Compile Include="Quantum\QuantumMapBuilder.cs" />
     <Compile Include="Quantum\QuantumGame.cs" />
     <Compile Include="Quantum\QuantumModel.cs" />
     <Compile Include="Quantum\Renders\GlobalRender.cs" />
+    <Compile Include="Quantum\Utils\DeltaTimeCounter.cs" />
+    <Compile Include="Quantum\Utils\DroneCache.cs" />
+    <Compile Include="Quantum\Utils\GamePrints.cs" />
     <EmbeddedResource Include="Form\QuantumForm.resx">
       <DependentUpon>QuantumForm.cs</DependentUpon>
     </EmbeddedResource>
