@@ -66,7 +66,8 @@
     <Compile Include="Quantum\Controllers\GeneralController.cs" />
     <Compile Include="Quantum\Controllers\NetworkSync.cs" />
     <Compile Include="Quantum\Controllers\OutpostConquestController.cs" />
-    <Compile Include="Quantum\Factory\MultiPlayerGameFactory.cs" />
+    <Compile Include="Quantum\Factory\ClientGameFactory.cs" />
+    <Compile Include="Quantum\Factory\ServerGameFactory.cs" />
     <Compile Include="Quantum\Factory\SinglePlayerGameFactory.cs" />
     <Compile Include="Quantum\GameEvent.cs" />
     <Compile Include="Quantum\GameNetwork.cs" />
@@ -74,6 +75,8 @@
     <Compile Include="Quantum\Model\Drone.cs" />
     <Compile Include="Quantum\Model\General.cs" />
     <Compile Include="Quantum\Model\Outpost.cs" />
+    <Compile Include="Quantum\NetworkEvents\SendKeysEvent.cs" />
+    <Compile Include="Quantum\NetworkEvents\ShareGameEvent.cs" />
     <Compile Include="Quantum\QuantumMapBuilder.cs" />
     <Compile Include="Quantum\QuantumGame.cs" />
     <Compile Include="Quantum\QuantumModel.cs" />

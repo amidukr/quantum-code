@@ -25,9 +25,10 @@ namespace Quantum.Quantum
     class QuantumGame
     {
 
-        private readonly Dictionary<object, bool> keyTable = new Dictionary<object, bool>();
+        public readonly Dictionary<object, bool> keyTable = new Dictionary<object, bool>();
         public Vector mousePosition {get; set;}
-        public QuantumModel model {get; private set;}
+        public QuantumModel model {get; set;}
+        public GameNetwork gameNetwork { get; set; }
 
         private MotionBlurFilter motionBlurFilter;
         private readonly WinBanner   winBanner   = new WinBanner();
@@ -45,7 +46,12 @@ namespace Quantum.Quantum
 
         private Image mainImage;
 
-        public void start(int screenWidth, int screenHeight)
+        public void AddController(GameController controller)
+        {
+            controllers.Add(controller);
+        }
+
+        public void start(QuantumModel model, int screenWidth, int screenHeight)
         {
             motionBlurFilter = new MotionBlurFilter(screenWidth, screenHeight);
             mainImage = new Bitmap(screenWidth, screenHeight);
@@ -61,7 +67,7 @@ namespace Quantum.Quantum
             controllers.Add(new OutpostConquestController());
             controllers.Add(new GlobalRender());
 
-            model = mapBuilder.initializeMap(screenWidth, screenHeight);
+            this.model = model;
 
             deltaTimeCounter = new DeltaTimeCounter();
             enabled = true;

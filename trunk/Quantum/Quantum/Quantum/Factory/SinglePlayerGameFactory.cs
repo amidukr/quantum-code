@@ -10,7 +10,9 @@ namespace Quantum.Quantum.Factory
         public QuantumGame create(int screenWidth, int screenHeight)
         {
             QuantumGame game = new QuantumGame();
-            game.start(screenWidth, screenHeight);
+            QuantumMapBuilder mapBuilder = new QuantumMapBuilder();
+            game.start(mapBuilder.initializeMap(screenWidth, screenHeight), screenWidth, screenHeight);
+
             return game;
         }
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows;
+using Quantum.Quantum.Model;
 
 namespace Quantum.Quantum.Controllers
 {

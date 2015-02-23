@@ -6,6 +6,7 @@ using System.Windows;
 
 namespace Quantum.Quantum.Model
 {
+    [Serializable]
     class Outpost
     {
         public Outpost()
