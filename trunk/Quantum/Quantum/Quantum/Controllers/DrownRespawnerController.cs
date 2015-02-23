@@ -53,7 +53,7 @@ namespace Quantum.Quantum.Controllers
                     drone.Position = new Vector(outpost.Position.X + random.NextDouble(), outpost.Position.Y + random.NextDouble());
                     //drone.Position = new Vector(outpost.Position.X, outpost.Position.Y);
 
-                    general.Drones.Add(drone);
+                    general.AddDrone(drone);
                 }
             }
         }

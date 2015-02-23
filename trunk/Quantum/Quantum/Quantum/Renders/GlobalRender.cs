@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using Quantum.Quantum.Utils;
+using System.Windows;
 
 namespace Quantum.Quantum
 {
@@ -30,6 +32,8 @@ namespace Quantum.Quantum
         private float floaXShift=0;
         private float floaYShift = 0;
 
+        private Random random = new Random();
+
         public void execute(GameEvent gameEvent)
         {
             if (gameEvent.graphics == null) return;
@@ -39,6 +43,7 @@ namespace Quantum.Quantum
             drawOutposts(gameEvent);
 
             List<General> generals = gameEvent.model.Generals;
+            GeneralsDronesCache dronesCache = gameEvent.dronesCache;
 
             foreach (General general in generals)
             {
@@ -47,7 +52,7 @@ namespace Quantum.Quantum
 
             foreach (General general in generals)
             {
-                drawDrone(gameEvent, general);
+                drawDrone(gameEvent, general, dronesCache.getTeamCache(general.Team));
             }
 
             drawBeam(gameEvent);
@@ -77,22 +82,41 @@ namespace Quantum.Quantum
                     gameEvent.graphics.DrawImage(greenOutpostImage, (int)outpost.Position.X - 50, (int)outpost.Position.Y - 50, 100, 100);
             }
         }
-        public void drawDrone(GameEvent gameEvent, General general)
-        {
-            List<Drone> drones = general.Drones;
-            int scale = 10, doubleScale = scale * 2;
-            Image droneImage;
-            if (drones.Count != 0)
-            {
-                if (general.Team == Team.green)
-                    droneImage = greenDroneImage;
-                else
-                    droneImage = blueDroneImage;
 
-                foreach (Drone drone in drones)
-                {   
-                    gameEvent.graphics.DrawImage(droneImage, (int)drone.Position.X - scale, (int)drone.Position.Y - scale, doubleScale, doubleScale);
+        public void drawDrone(GameEvent gameEvent, General general, DronesCache cache)
+        {
+            
+            
+            Image droneImage;
+            
+            if (general.Team == Team.green)
+                droneImage = greenDroneImage;
+            else
+                droneImage = blueDroneImage;
+
+            int densityBlock = (int)cache.frameCacheSize;
+
+            for (int i = 0; i < gameEvent.width; i += densityBlock)
+            {
+                for (int j = 0; j < gameEvent.height; j += densityBlock)
+                {
+                    IEnumerable<Drone> drones = cache.findDrones(new Vector(i, j),
+                                                                 new Vector(i + densityBlock, j + densityBlock));
+                    drawDrones(gameEvent.graphics, droneImage, drones, (densityBlock * densityBlock) / 10);
                 }
+            }   
+        }
+
+        public void drawDrones(Graphics g, Image droneImage, IEnumerable<Drone> drones, int maxDrones)
+        {
+            int scale = 10, doubleScale = scale * 2;
+            int i = 0;
+
+            foreach (Drone drone in drones)
+            {
+                if (i++ > maxDrones) return;
+
+                g.DrawImage(droneImage, (int)drone.Position.X - scale, (int)drone.Position.Y - scale, doubleScale, doubleScale);
             }
         }
 
