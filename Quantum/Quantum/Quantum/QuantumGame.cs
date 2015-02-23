@@ -99,8 +99,7 @@ namespace Quantum.Quantum
         {
             mainImage = new Bitmap((int)width, (int)height);
             blurImage = new Bitmap((int)width, (int)height);
-
-            controllers.Add(new OutpostConquestController());
+            
             controllers.Add(new GeneralController(Keys.W,  Keys.S,    Keys.A,    Keys.D,     Team.green));
             controllers.Add(new GeneralController(Keys.Up, Keys.Down, Keys.Left, Keys.Right, Team.blue));
             controllers.Add(new DroneOrderingController(Team.green, Keys.Q, MouseButtons.Left));
@@ -108,6 +107,7 @@ namespace Quantum.Quantum
             controllers.Add(new DroneController());
             controllers.Add(new DrownRespawnerController());
             controllers.Add(new DronsFighting());
+            controllers.Add(new OutpostConquestController());
             controllers.Add(new GlobalRender());
 
             mapBuilder.initializeMap(this, width, height);
