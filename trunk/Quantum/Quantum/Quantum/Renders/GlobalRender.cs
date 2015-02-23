@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using Quantum.Quantum.Utils;
 using System.Windows;
+using Quantum.Quantum.Model;
 
 namespace Quantum.Quantum
 {
@@ -29,8 +30,7 @@ namespace Quantum.Quantum
 
         private Pen blueWidePen       = new Pen(Color.Red, 3);
         private Pen blueWideHelpPen   = new Pen(Color.DarkRed, 5);
-        private float floaXShift=0;
-        private float floaYShift = 0;
+        private float floaXShift = 0;
 
         private Random random = new Random();
 
@@ -38,12 +38,13 @@ namespace Quantum.Quantum
         {
             if (gameEvent.graphics == null) return;
 
-            gameEvent.graphics.DrawImage(background, 0, 0, (float)gameEvent.width, (float)gameEvent.height);
+            gameEvent.graphics.DrawImage(background, 0, 0, (float)gameEvent.model.mapWidth,
+                                                           (float)gameEvent.model.mapHeight);
 
             drawOutposts(gameEvent);
 
             List<General> generals = gameEvent.model.Generals;
-            GeneralsDronesCache dronesCache = gameEvent.smallCache;
+            GeneralsDronesCache dronesCache = gameEvent.game.smallCache;
 
             foreach (General general in generals)
             {
@@ -85,7 +86,7 @@ namespace Quantum.Quantum
 
         public void drawDrone(GameEvent gameEvent, General general, DronesCache cache)
         {
-            
+            QuantumModel model = gameEvent.model;
             
             Image droneImage;
             
@@ -97,7 +98,7 @@ namespace Quantum.Quantum
             int densityBlock = (int)cache.frameCacheSize;
 
             cache.findDrones(new Vector(0, 0),
-                             new Vector(gameEvent.width, gameEvent.height),
+                             new Vector(model.mapWidth, model.mapHeight),
             drones =>
             {
                 drawDrones(gameEvent.graphics, droneImage, drones, (densityBlock * densityBlock) / 100);
