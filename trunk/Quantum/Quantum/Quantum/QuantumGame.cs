@@ -27,7 +27,8 @@ namespace Quantum.Quantum
         public readonly Vector mousePosition;
         public readonly double width, height;
         public readonly Team winner;
-        public readonly GeneralsDronesCache dronesCache;
+        public readonly GeneralsDronesCache smallCache;
+        public readonly GeneralsDronesCache largeCache;
 
         public GameEvent(QuantumGame game, double deltaTime, Graphics graphics, Team winner, double width, double height)
         {
@@ -41,8 +42,8 @@ namespace Quantum.Quantum
 
             this.model         = game.model;
             this.mousePosition = game.mousePosition;
-            this.dronesCache   = game.dronesCache;
-            
+            this.smallCache    = game.smallCache;
+            this.largeCache    = game.largeCache;
         }
 
         public Boolean isButtonPressed(Keys key)
@@ -66,7 +67,11 @@ namespace Quantum.Quantum
         private readonly Dictionary<object, bool> keyTable = new Dictionary<object, bool>();
         public Vector mousePosition {get; set;}
         public readonly QuantumModel model = new QuantumModel();
-        public readonly GeneralsDronesCache dronesCache = new GeneralsDronesCache(50);
+        
+        public readonly GeneralsDronesCache smallCache = new GeneralsDronesCache(20);
+        public readonly GeneralsDronesCache largeCache = new GeneralsDronesCache(200);
+
+        private long printAccumulator;
 
         private DeltaTimeCounter deltaTimeCounter;
         private bool firstExecution = true;
@@ -139,19 +144,32 @@ namespace Quantum.Quantum
                     return false;
                 }
 
-                GamePrints.gameIteration++;
-
                 GamePrints.NextFrame();
                 long deltaTime = deltaTimeCounter.PrintAndMeasureDelta("Seconds per frame");
+
+                printAccumulator += deltaTime;
+
+                if (printAccumulator >  0)
+                {
+                    printAccumulator -= 30000000;
+                    GamePrints.enablePrint = true;
+                }
+                else
+                {
+                    GamePrints.enablePrint = false;
+                }
+
+                
 
                 Team winner = checkWinCondition();
 
                 performanceCounter.PrintAndMeasureDelta("Check win condition");
 
-                dronesCache.cacheModel(model);
-                performanceCounter.PrintAndMeasureDelta("Cached drones");
-
+                smallCache.cacheModel(model);
+                largeCache.cacheModel(model);
                 performanceCounter.PrintAndMeasureDelta("Cache drones");
+                
+                
 
                 GameEvent gameEvent = new GameEvent(this, deltaTime / 100000.0, g, winner, width, height);
 

@@ -7,11 +7,11 @@ namespace Quantum.Quantum.Utils
 {
     class GamePrints
     {
-        public static int gameIteration;
+        public static bool enablePrint;
 
         public static void WriteLine(String message)
         {
-            if (gameIteration % 100 != 0) return;
+            if (!enablePrint) return;
 
             Console.WriteLine(message);
         }

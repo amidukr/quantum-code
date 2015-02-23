@@ -12,14 +12,15 @@ namespace Quantum.Quantum.Controllers
         public void execute(GameEvent gameEvent)
         {
             QuantumModel model = gameEvent.model;
-            GeneralsDronesCache dronesCached = gameEvent.dronesCache;
+            GeneralsDronesCache dronesCached = gameEvent.largeCache;
 
             double maxFightDistance = 150;
-
 
             foreach (General general in model.Generals)
             {
                 List<Team> enemyTeams = new List<Team>();
+
+                int beamSizeLimit = 1000;
 
                 foreach (General enemyGeneral in model.Generals)
                 {
@@ -32,12 +33,27 @@ namespace Quantum.Quantum.Controllers
                 {
                     Vector fightDistanceCorner = new Vector(maxFightDistance, maxFightDistance);
 
-                    foreach (Drone enemyDrone in dronesCached.findDrones(enemyTeams, Vector.Subtract(drone.Position, fightDistanceCorner),
-                                                                                     Vector.Add(drone.Position,      fightDistanceCorner))){
-                        enemyDrone.Health--;
-                        model.Beams.Add(new Beam(drone.Position, enemyDrone.Position, general.Team));
-                        break;
-                    }
+                    dronesCached.findDrones(enemyTeams, Vector.Subtract(drone.Position, fightDistanceCorner),
+                                                                                     Vector.Add(drone.Position,      fightDistanceCorner),
+                        droneList => {
+                            foreach (Drone enemyDrone in droneList)
+                            {
+
+                                if (Vector.Subtract(enemyDrone.Position, drone.Position).Length > maxFightDistance) continue;
+
+                                enemyDrone.Health--;
+
+                                if (beamSizeLimit-- > 0)
+                                {
+                                    model.Beams.Add(new Beam(drone.Position, enemyDrone.Position, general.Team));
+                                }
+                                
+                                break;
+                            }
+                        
+                        });
+
+                    
                 }
             }
            

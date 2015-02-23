@@ -43,7 +43,7 @@ namespace Quantum.Quantum
             drawOutposts(gameEvent);
 
             List<General> generals = gameEvent.model.Generals;
-            GeneralsDronesCache dronesCache = gameEvent.dronesCache;
+            GeneralsDronesCache dronesCache = gameEvent.smallCache;
 
             foreach (General general in generals)
             {
@@ -96,21 +96,20 @@ namespace Quantum.Quantum
 
             int densityBlock = (int)cache.frameCacheSize;
 
-            for (int i = 0; i < gameEvent.width; i += densityBlock)
+            cache.findDrones(new Vector(0, 0),
+                             new Vector(gameEvent.width, gameEvent.height),
+            drones =>
             {
-                for (int j = 0; j < gameEvent.height; j += densityBlock)
-                {
-                    IEnumerable<Drone> drones = cache.findDrones(new Vector(i, j),
-                                                                 new Vector(i + densityBlock, j + densityBlock));
-                    drawDrones(gameEvent.graphics, droneImage, drones, (densityBlock * densityBlock) / 10);
-                }
-            }   
+                drawDrones(gameEvent.graphics, droneImage, drones, (densityBlock * densityBlock) / 100);
+            }); 
         }
 
         public void drawDrones(Graphics g, Image droneImage, IEnumerable<Drone> drones, int maxDrones)
         {
             int scale = 10, doubleScale = scale * 2;
             int i = 0;
+
+            maxDrones += 3;
 
             foreach (Drone drone in drones)
             {
