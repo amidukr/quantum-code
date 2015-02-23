@@ -9,7 +9,7 @@ namespace Quantum.Quantum.Factory
 {
    
 
-    class ServerGameFactory
+    class ServerGameFactory : GameFactory
     {
         private GameNetwork network = new GameNetwork();
 
@@ -50,6 +50,11 @@ namespace Quantum.Quantum.Factory
             game.start(model, width, height);
 
             callback(game);
+        }
+
+        public void create(int screenWidth, int screenHeight, OnAsynCreate callback)
+        {
+            CreateServerGame(screenWidth, screenHeight, callback);
         }
     }
 }

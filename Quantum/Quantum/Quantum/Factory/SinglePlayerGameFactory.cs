@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Quantum.Quantum.Factory
 {
-    class SinglePlayerGameFactory
+    class SinglePlayerGameFactory : GameFactory
     {
-        public QuantumGame create(int screenWidth, int screenHeight)
+        public void create(int screenWidth, int screenHeight, OnAsynCreate callback)
         {
             QuantumGame game = new QuantumGame();
             QuantumMapBuilder mapBuilder = new QuantumMapBuilder();
             game.start(mapBuilder.initializeMap(screenWidth, screenHeight), screenWidth, screenHeight);
 
-            return game;
+            callback(game);
         }
     }
 }

@@ -168,11 +168,22 @@ namespace Quantum.Quantum
         {
             MessageBuffer messageBuffer = new MessageBuffer(socket, buffer, callback);
 
+            if (!messageBuffer.socket.Connected)
+            {
+                clients.Remove(messageBuffer.socket);
+                return;
+            }
+
             socket.BeginReceive(messageBuffer.Buffer, 0, messageBuffer.Buffer.Length, 0, OnReceiveBuffer, messageBuffer);
         }
 
         private void OnReceiveBuffer(IAsyncResult ar) {
             MessageBuffer messageBuffer = (MessageBuffer)ar.AsyncState;
+            if (!messageBuffer.socket.Connected)
+            {
+                clients.Remove(messageBuffer.socket);
+                return;
+            }
             int received = messageBuffer.socket.EndReceive(ar);
 
             messageBuffer.ReadOffset += received;

@@ -9,7 +9,7 @@ namespace Quantum.Quantum.Factory
 {
     delegate void OnAsynCreate(QuantumGame game);
 
-    class ClientGameFactory
+    class ClientGameFactory: GameFactory
     {
         private GameNetwork network = new GameNetwork();
 
@@ -57,6 +57,11 @@ namespace Quantum.Quantum.Factory
             {
                 OnEvent(width, height, callback);
             });
+        }
+
+        public void create(int screenWidth, int screenHeight, OnAsynCreate callback)
+        {
+            
         }
     }
 }
