@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Quantum.Quantum;
 using System.Windows;
+using Quantum.Quantum.Utils;
 
 namespace Quantum
 {
@@ -36,9 +37,15 @@ namespace Quantum
 
         private void onTimer(object sender, EventArgs e)
         {
-            restartButton.Visible = game.playNext(null, Width, Height);
-            restartButton.Enabled = restartButton.Visible;
             this.Refresh();
+        }
+
+        private void QuantumForm_Paint(object sender, PaintEventArgs e)
+        {
+            if (e.Graphics == null) return;
+
+            restartButton.Visible = game.playNext(e.Graphics, Width, Height);
+            restartButton.Enabled = restartButton.Visible;
         }
 
         private void onKeyDown(object sender, KeyEventArgs e)
@@ -66,11 +73,6 @@ namespace Quantum
         private void onMouseMove(object sender, MouseEventArgs e)
         {
             game.mousePosition = new Vector(e.X, e.Y);
-        }
-
-        private void QuantumForm_Paint(object sender, PaintEventArgs e)
-        {
-            game.playNext(e.Graphics, Width, Height);
         }
 
         private void onRestart(object sender, EventArgs e)

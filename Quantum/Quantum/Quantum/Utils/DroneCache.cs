@@ -7,6 +7,9 @@ using IntPoint = System.Drawing.Point;
 
 namespace Quantum.Quantum.Utils
 {
+
+    delegate void GetCacheRange(List<Drone> drones);
+
     class DronesCache {
         //ivate Dictionary<IntPoint, List<Drone>> cache = new Dictionary<IntPoint,List<Drone>>();
         private readonly int cacheXSize;
@@ -46,7 +49,7 @@ namespace Quantum.Quantum.Utils
         public void cacheDrones(List<Drone> drones)
         {
             foreach(Drone drone in drones) {
-                IntPoint point = ToFramePoint(drone.Position, frameCacheSize);
+                IntPoint point = ToFramePoint(drone.Position);
                 getDrones(point, true).Add(drone);
 
                 //if (!cache.ContainsKey(point))
@@ -76,10 +79,10 @@ namespace Quantum.Quantum.Utils
             return cache[point.X, point.Y];
         }
 
-        public IEnumerable<Drone> findDrones(Vector fromPoint, Vector toPoint)
+        public void findDrones(Vector fromPoint, Vector toPoint, GetCacheRange callback)
         {
-            IntPoint iFromPoint = ToFramePoint(fromPoint, frameCacheSize);
-            IntPoint iToPoint = ToFramePoint(toPoint, frameCacheSize);
+            IntPoint iFromPoint = ToFramePoint(fromPoint);
+            IntPoint iToPoint = ToFramePoint(toPoint);
 
             IntPoint iPoint = new IntPoint();
 
@@ -97,19 +100,16 @@ namespace Quantum.Quantum.Utils
 
                     if (drones == null) continue;
 
-                    foreach (Drone drone in drones)
-                    {
-                        yield return drone;
-                    }
+                    callback(drones);
                 }
             }
         }
 
 
-        public IntPoint ToFramePoint(Vector vector, double cacheBlocSize)
+        public IntPoint ToFramePoint(Vector vector)
         {
-            return new IntPoint((int)(vector.X / cacheBlocSize) + xOffset,
-                                (int)(vector.Y / cacheBlocSize) + yOffset);
+            return new IntPoint((int)(vector.X / frameCacheSize) + xOffset,
+                                (int)(vector.Y / frameCacheSize) + yOffset);
         }
     }
 
@@ -142,13 +142,17 @@ namespace Quantum.Quantum.Utils
             }
         }
 
-        public IEnumerable<Drone> findDrones(List<Team> teams, Vector fromPoint, Vector toPoint) {
+        public void findDrones(List<Team> teams, Vector fromPoint, Vector toPoint, GetCacheRange callback) {
+            List<Drone> results = new List<Drone>();
+
             foreach (Team team in teams)
             {
-                foreach (Drone done in cache[team].findDrones(fromPoint, toPoint))
-                {
-                    yield return done;
-                }
+                //foreach (Drone done in cache[team].findDrones(fromPoint, toPoint))
+                //{
+                //    yield return done;
+                //}
+
+                cache[team].findDrones(fromPoint, toPoint, callback);
             }
         }
 
