@@ -17,7 +17,8 @@ namespace Quantum
     public partial class QuantumForm : Form
     {
         private readonly SinglePlayerGameFactory singlePlayerFactory = new SinglePlayerGameFactory();
-        private readonly MultiPlayerGameFactory  multiPlayerFactory  = new MultiPlayerGameFactory();
+        private readonly ServerGameFactory serverGameFactory = new ServerGameFactory();
+        private readonly ClientGameFactory clientGameFactory = new ClientGameFactory();
 
         private int ScreenWidth  = Screen.PrimaryScreen.WorkingArea.Width;
         private int ScreenHeight = Screen.PrimaryScreen.WorkingArea.Height;
@@ -61,7 +62,20 @@ namespace Quantum
         {
             if (e.KeyChar == 'h')
             {
-                multiPlayerFactory.listen(7777);
+                serverGameFactory.Listen(Width, Height, newGame =>
+                {
+                    this.game = newGame;
+                });
+                MessageBox.Show("Waiting for second player.\nPlease. press ok to proceeded");
+
+            }
+
+            if (e.KeyChar == 'j')
+            {
+                clientGameFactory.Join(Width, Height, "127.0.0.1", newGame =>
+                {
+                    this.game = newGame;
+                });
                 MessageBox.Show("Waiting for second player.\nPlease. press ok to proceeded");
 
             }

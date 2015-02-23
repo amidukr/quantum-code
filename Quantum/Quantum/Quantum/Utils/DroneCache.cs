@@ -38,9 +38,9 @@ namespace Quantum.Quantum.Utils
 
         public void clear()
         {
-            for (int i = 0; i < cache.GetUpperBound(0); i++)
+            for (int i = 0; i <= cache.GetUpperBound(0); i++)
             {
-                for (int j = 0; j < cache.GetUpperBound(1); j++)
+                for (int j = 0; j <= cache.GetUpperBound(1); j++)
                 {
                     cache[i, j] = null;
                 }
@@ -66,8 +66,8 @@ namespace Quantum.Quantum.Utils
             if (point.X < 0) point.X = 0;
             if (point.Y < 0) point.Y = 0;
 
-            if (point.X > cacheXSize) point.X = cacheXSize - 1;
-            if (point.Y > cacheYSize) point.Y = cacheYSize - 1;
+            if (point.X > cache.GetUpperBound(0)) point.X = cache.GetUpperBound(0);
+            if (point.Y > cache.GetUpperBound(1)) point.Y = cache.GetUpperBound(1);
 
             if (lazyInit)
             {

@@ -6,6 +6,7 @@ using System.Windows;
 
 namespace Quantum.Quantum.Model
 {
+    [Serializable]
     class Beam
     {
         public readonly int TimeToLive_Iterations = 10;
