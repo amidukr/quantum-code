@@ -82,9 +82,6 @@ namespace Quantum.Quantum
 
             fillGeneralWithDrones(model, greenGeneral, new Vector(0, 0), 300);
             fillGeneralWithDrones(model, blueGeneral, new Vector(width, height), 300);
-
-            //fillGeneralWithDrones(model, greenGeneral, new Vector(0, 0), 10000);
-            //fillGeneralWithDrones(model, blueGeneral, new Vector(width, height), 10000);
         }
     }
 }
